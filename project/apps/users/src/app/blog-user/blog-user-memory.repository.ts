@@ -1,7 +1,9 @@
 import { CrudRepositoryInterface } from '@project/util/util-types';
 import { BlogUserEntity } from './blog-user.entity';
 import { UserInterface } from '@project/shared/app-types';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 export class BlogUserMemoryRepository implements CrudRepositoryInterface<BlogUserEntity, string, UserInterface> {
   private repository: {[key: string]: UserInterface} = {};
 
