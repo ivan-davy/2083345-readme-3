@@ -1,13 +1,13 @@
-import {ConflictException, Injectable, NotFoundException, UnauthorizedException} from '@nestjs/common';
+import {Injectable, NotFoundException} from '@nestjs/common';
 import {BlogPostMemoryRepository} from './blog-post-memory.repository';
 import {CreatePostTextDto} from './dto/create-post-text.dto';
-import {BlogPostEntity} from './blog-post.entity';
 import {CreatePostImageDto} from './dto/create-post-image.dto';
 import {CreatePostVideoDto} from './dto/create-post-video.dto';
 import {CreatePostLinkDto} from './dto/create-post-link.dto';
 import {CreatePostQuoteDto} from './dto/create-post-quote.dto';
-import {BlogPostTextEntity} from './blog-post-text.entity';
+import {TypeEntityAdapterObject} from './type-entity-adapter.object';
 import dayjs from 'dayjs';
+
 
 
 @Injectable()
@@ -25,13 +25,27 @@ export class BlogPostService {
       postDate: dayjs().toISOString(),
       likesQty: 0,
       commentsQty: 0,
-      status: 'draft',
       isReposted: false
     };
-    const postEntity = await new BlogPostTextEntity(blogPost)
+
+    const postEntity = await new TypeEntityAdapterObject[blogPost.type](blogPost);
 
     return this.blogPostRepository
       .create(postEntity);
+  }
+
+  public async update(
+    postId: string,
+    dto: CreatePostTextDto | CreatePostImageDto | CreatePostVideoDto | CreatePostLinkDto | CreatePostQuoteDto,
+  ) {
+
+    const blogPost = await this.getById(postId);
+    const updatedPost = {...blogPost, ...dto}
+
+    const postEntity = await new TypeEntityAdapterObject[updatedPost.type](updatedPost);
+
+    return this.blogPostRepository
+      .update(postId, postEntity);
   }
 
   public async getById(id: string) {
@@ -39,3 +53,4 @@ export class BlogPostService {
   }
 
 }
+

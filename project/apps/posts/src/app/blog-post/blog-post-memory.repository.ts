@@ -4,6 +4,7 @@ import { PostInterface } from '@project/shared/app-types';
 import { Injectable } from '@nestjs/common';
 import { randomUUID } from 'crypto';
 
+
 @Injectable()
 export class BlogPostMemoryRepository implements CrudRepositoryInterface<BlogPostEntity, string, PostInterface> {
   private repository: {[key: string]: PostInterface} = {};
