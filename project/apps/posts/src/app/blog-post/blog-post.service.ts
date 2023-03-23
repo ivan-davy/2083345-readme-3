@@ -5,7 +5,7 @@ import {CreatePostImageDto} from './dto/create-post-image.dto';
 import {CreatePostVideoDto} from './dto/create-post-video.dto';
 import {CreatePostLinkDto} from './dto/create-post-link.dto';
 import {CreatePostQuoteDto} from './dto/create-post-quote.dto';
-import {TypeEntityAdapterObject} from './type-entity-adapter.object';
+import {TypeEntityAdapterObject} from './utils/type-entity-adapter.object';
 import dayjs from 'dayjs';
 
 

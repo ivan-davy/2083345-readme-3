@@ -1,6 +1,12 @@
 import { CrudRepositoryInterface } from '@project/util/util-types';
 import { BlogPostEntity } from './blog-post.entity';
-import { PostInterface } from '@project/shared/app-types';
+import {
+  PostImageInterface,
+  PostInterface,
+  PostLinkInterface, PostQuoteInterface,
+  PostTextInterface,
+  PostVideoInterface
+} from '@project/shared/app-types';
 import { Injectable } from '@nestjs/common';
 import { randomUUID } from 'crypto';
 

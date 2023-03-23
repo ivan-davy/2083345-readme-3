@@ -2,7 +2,7 @@ import {ApiProperty} from '@nestjs/swagger';
 import {Expose, Type} from 'class-transformer';
 import {UserRdo} from './user.rdo';
 
-export class PostLinkDto {
+export class PostLinkRdo {
   @ApiProperty({
     description: 'Optional post tags',
     example: ['tag1', 'tag2', 'tag3']
