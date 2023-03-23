@@ -4,7 +4,7 @@ export interface UserInterface {
   name: string;
   avatar: string;
   passwordHash: string;
-  registrationDate: string;
-  postsQty: number;
-  subscribersQty: number;
+  registrationDate?: string;
+  postsQty?: number;
+  subscribersQty?: number;
 }
