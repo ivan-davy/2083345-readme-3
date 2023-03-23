@@ -1,7 +1,7 @@
 import { PostTextInterface } from '@project/shared/app-types';
 import { BlogPostEntity } from './blog-post.entity';
 
-export abstract class BlogPostTextEntity extends BlogPostEntity implements PostTextInterface {
+export class BlogPostTextEntity extends BlogPostEntity implements PostTextInterface {
   public title: string;
   public announcement: string;
   public text: string;

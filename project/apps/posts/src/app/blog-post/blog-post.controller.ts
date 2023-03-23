@@ -1,15 +1,12 @@
-import {Body, Controller, Get, HttpStatus, Param, Post} from '@nestjs/common';
-import {AuthenticationService} from './authentication.service';
+import { Body, Controller, Get, HttpStatus, Param, Post } from '@nestjs/common';
 import { CreatePostTextDto } from './dto/create-post-text.dto';
-import {UserRdo} from './rdo/user.rdo';
-import {fillObject} from '@project/util/util-core';
-import {LoginUserDto} from './dto/login-user.dto';
-import {LoggedUserRdo} from './rdo/logged-user.rdo';
-import {ApiResponse, ApiTags} from '@nestjs/swagger';
+import { UserRdo } from './rdo/user.rdo';
+import { fillObject } from '@project/util/util-core';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('posts')
 @Controller('post')
-export class AuthenticationController {
+export class BlogPostController {
   constructor(
     private readonly postService: BlogPostService;
   ) {

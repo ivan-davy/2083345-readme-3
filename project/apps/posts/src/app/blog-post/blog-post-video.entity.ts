@@ -1,7 +1,7 @@
 import { PostVideoInterface } from '@project/shared/app-types';
 import { BlogPostEntity } from './blog-post.entity';
 
-export abstract class BlogPostVideoEntity extends BlogPostEntity implements PostVideoInterface {
+export class BlogPostVideoEntity extends BlogPostEntity implements PostVideoInterface {
   public title: string;
   public videoLink: string;
 

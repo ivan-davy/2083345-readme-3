@@ -1,7 +1,7 @@
 import { PostImageInterface } from '@project/shared/app-types';
 import { BlogPostEntity } from './blog-post.entity';
 
-export abstract class BlogPostImageEntity extends BlogPostEntity implements PostImageInterface {
+export class BlogPostImageEntity extends BlogPostEntity implements PostImageInterface {
   public title: string;
   public imageLink: string;
 

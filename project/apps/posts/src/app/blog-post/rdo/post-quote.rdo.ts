@@ -1,29 +1,25 @@
 import {ApiProperty} from '@nestjs/swagger';
-import {PostStatusEnum, PostTypeEnum, UserInterface} from '@project/shared/app-types';
 import {Expose, Type} from 'class-transformer';
 import {UserRdo} from './user.rdo';
 
-export class PostImageRdo {
+export class PostQuoteRdo {
   @ApiProperty({
     description: 'Optional post tags',
     example: ['tag1', 'tag2', 'tag3']
   })
-  @Expose()
   public tags: string[];
 
   @ApiProperty({
-    description: 'Post title',
-    example: 'Awesome post'
+    description: 'Post quote',
+    example: 'Certified BRUH (c) moment.'
   })
-  @Expose()
-  public title: string;
+  public quote: string;
 
   @ApiProperty({
-    description: 'Post image link',
-    example: '/imgs/image.png'
+    description: 'Quote author',
+    example: 'Me.'
   })
-  @Expose()
-  public imageLink: string;
+  public quoteAuthor: string;
 
   @ApiProperty({
     description: 'Post id',
@@ -97,5 +93,3 @@ export class PostImageRdo {
   @Expose()
   public isReposted: boolean;
 }
-
-
