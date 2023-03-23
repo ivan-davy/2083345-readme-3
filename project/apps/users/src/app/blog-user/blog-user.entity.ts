@@ -1,4 +1,6 @@
 import { UserInterface } from '@project/shared/app-types';
+import {compare, genSalt, hash} from 'bcrypt';
+import {SALT_ROUNDS} from './blog-user.constant';
 
 export class BlogUserEntity implements UserInterface {
   public _id?: string;
@@ -27,5 +29,15 @@ export class BlogUserEntity implements UserInterface {
     this.registrationDate = blogUser.registrationDate;
     this.postsQty = blogUser.postsQty;
     this.subscribersQty = blogUser.subscribersQty;
+  }
+
+  public async setPassword(password: string): Promise<BlogUserEntity> {
+    const salt = await genSalt(SALT_ROUNDS);
+    this.passwordHash = await hash(password, salt);
+    return this;
+  }
+
+  public async comparePassword(password: string): Promise<boolean> {
+    return compare(password, this.passwordHash);
   }
 }
