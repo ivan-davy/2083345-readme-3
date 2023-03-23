@@ -3,7 +3,7 @@ export interface UserInterface {
   email: string;
   name: string;
   avatar: string;
-  passwordHash: string;
+  passwordHash?: string;
   registrationDate?: string;
   postsQty?: number;
   subscribersQty?: number;
