@@ -15,17 +15,16 @@ Content-Type: application/json
 ###
 
 # Get post by ID
-GET http://localhost:3333/api/post/8a4da666-31e6-458b-92ef-54d870582e3a HTTP/1.1
+GET http://localhost:3333/api/post/6ee28734-4e16-4027-8351-f76022bba3b8 HTTP/1.1
 
 ###
 
 # Update post
-POST http://localhost:3333/api/auth/login HTTP/1.1
+PATCH http://localhost:3333/api/post/6ee28734-4e16-4027-8351-f76022bba3b8 HTTP/1.1
 Content-Type: application/json
 
 {
- "email": "user@notfound.local",
- "password": "123456"
+  "text": "heya2"
 }
 
 ###

@@ -1,24 +1,7 @@
 import {ApiProperty} from '@nestjs/swagger';
+import {CreatePostDto} from './create-post.dto';
 
-export class CreatePostLinkDto {
-  @ApiProperty({
-    description: 'Status (draft/posted)',
-    example: 'draft'
-  })
-  public status: string;
-
-  @ApiProperty({
-    description: 'Fixed post type',
-    example: 'text'
-  })
-  public type: string;
-
-  @ApiProperty({
-    description: 'Optional post tags',
-    example: ['tag1', 'tag2', 'tag3']
-  })
-  public tags: string[];
-
+export class CreatePostLinkDto extends CreatePostDto {
   @ApiProperty({
     description: 'Post link',
     example: 'https://google.com/post.html'

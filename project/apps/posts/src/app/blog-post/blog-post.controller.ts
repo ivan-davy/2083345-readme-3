@@ -1,15 +1,9 @@
-import { Body, Controller, Get, HttpStatus, Param, Post, Patch } from '@nestjs/common';
-import { CreatePostTextDto } from './dto/create-post-text.dto';
-import { fillObject } from '@project/util/util-core';
-import { ApiResponse, ApiTags } from '@nestjs/swagger';
-import { BlogPostService } from './blog-post.service';
-import {PostQuoteRdo} from './rdo/post-quote.rdo';
-import {PostImageRdo} from './rdo/post-image.rdo';
-import {PostLinkRdo} from './rdo/post-link.rdo';
-import {PostVideoRdo} from './rdo/post-video.rdo';
-import {PostTextRdo} from './rdo/post-text.rdo';
-import {TypeRdoAdapterObject} from './utils/type-rdo-adapter.object';
+import {Body, Controller, Get, HttpStatus, Param, Patch, Post} from '@nestjs/common';
+import {CreatePostTextDto} from './dto/create-post-text.dto';
+import {ApiResponse, ApiTags} from '@nestjs/swagger';
+import {BlogPostService} from './blog-post.service';
 import {PostRdo} from './rdo/post.rdo';
+import {fillRdoForPost} from './utils/fill-rdo-for-post';
 
 @ApiTags('posts')
 @Controller('post')
@@ -20,7 +14,7 @@ export class BlogPostController {
   }
 
   @ApiResponse({
-    type: PostTextRdo || PostImageRdo || PostVideoRdo || PostLinkRdo || PostQuoteRdo,
+    type: PostRdo,
     status: HttpStatus.CREATED,
     description: 'Post successfully created.',
   })
@@ -28,7 +22,7 @@ export class BlogPostController {
   public async create(@Body() dto: CreatePostTextDto) {
     const newPost = await this.postService.create(dto);
     console.log(newPost);
-    return fillObject(PostRdo, newPost);
+    return fillRdoForPost(newPost);
   }
 
   @ApiResponse({
@@ -43,19 +37,19 @@ export class BlogPostController {
   @Get(':id')
   public async show(@Param('id') id: string) {
     const post = await this.postService.getById(id);
-    const rdo = TypeRdoAdapterObject[post.type] as never;
-    return fillObject(rdo, post);
+    console.log(post);
+    return fillRdoForPost(post);
   }
 
   @ApiResponse({
-    type: PostTextRdo || PostImageRdo || PostVideoRdo || PostLinkRdo || PostQuoteRdo,
+    type: PostRdo,
     status: HttpStatus.CREATED,
     description: 'Post successfully updated.',
   })
   @Patch(':id')
   public async update(@Param('id') id: string, @Body() dto: CreatePostTextDto) {
     const updatedPost = await this.postService.update(id, dto);
-    const rdo = TypeRdoAdapterObject[updatedPost.type] as never;
-    return fillObject(rdo, updatedPost);
+    console.log(updatedPost);
+    return fillRdoForPost(updatedPost);
   }
 }
