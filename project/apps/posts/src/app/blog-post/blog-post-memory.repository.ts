@@ -19,6 +19,7 @@ export class BlogPostMemoryRepository implements CrudRepositoryInterface<BlogPos
     const entry = { ...item.toObject(), _id: randomUUID()};
     this.repository[entry._id] = entry;
 
+    console.log(entry);
     return {...entry};
   }
 

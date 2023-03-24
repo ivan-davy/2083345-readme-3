@@ -1,6 +1,5 @@
 import { Body, Controller, Get, HttpStatus, Param, Post, Patch } from '@nestjs/common';
 import { CreatePostTextDto } from './dto/create-post-text.dto';
-import { UserRdo } from './rdo/user.rdo';
 import { fillObject } from '@project/util/util-core';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { BlogPostService } from './blog-post.service';
@@ -10,6 +9,7 @@ import {PostLinkRdo} from './rdo/post-link.rdo';
 import {PostVideoRdo} from './rdo/post-video.rdo';
 import {PostTextRdo} from './rdo/post-text.rdo';
 import {TypeRdoAdapterObject} from './utils/type-rdo-adapter.object';
+import {PostRdo} from './rdo/post.rdo';
 
 @ApiTags('posts')
 @Controller('post')
@@ -26,12 +26,13 @@ export class BlogPostController {
   })
   @Post('new')
   public async create(@Body() dto: CreatePostTextDto) {
-    const newUser = await this.postService.create(dto);
-    return fillObject(UserRdo, newUser);
+    const newPost = await this.postService.create(dto);
+    console.log(newPost);
+    return fillObject(PostRdo, newPost);
   }
 
   @ApiResponse({
-    type: PostTextRdo || PostImageRdo || PostVideoRdo || PostLinkRdo || PostQuoteRdo,
+    type: PostRdo,
     status: HttpStatus.OK,
     description: 'Post data provided.'
   })

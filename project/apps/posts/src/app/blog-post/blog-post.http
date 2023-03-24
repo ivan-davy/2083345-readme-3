@@ -8,6 +8,7 @@ Content-Type: application/json
   "title": "TITLE",
   "announcement": "ANNOUNCEMENT",
   "description": "DESCRIPTION",
+  "text": "heya",
   "tags": ["hello", "bye"]
 }
 
