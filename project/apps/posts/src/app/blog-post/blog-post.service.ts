@@ -1,4 +1,4 @@
-import {Injectable, NotFoundException} from '@nestjs/common';
+import {Injectable} from '@nestjs/common';
 import {BlogPostMemoryRepository} from './blog-post-memory.repository';
 import {CreatePostTextDto} from './dto/create-post-text.dto';
 import {CreatePostImageDto} from './dto/create-post-image.dto';
@@ -7,7 +7,6 @@ import {CreatePostLinkDto} from './dto/create-post-link.dto';
 import {CreatePostQuoteDto} from './dto/create-post-quote.dto';
 import {TypeEntityAdapterObject} from './utils/type-entity-adapter.object';
 import dayjs from 'dayjs';
-
 
 
 @Injectable()
@@ -21,6 +20,8 @@ export class BlogPostService {
   ) {
     const blogPost = {
       ...dto,
+      _authorId: '',
+      _origAuthorId: '',
       creationDate: dayjs().toISOString(),
       postDate: dayjs().toISOString(),
       likesQty: 0,

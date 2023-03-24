@@ -42,7 +42,7 @@ export class BlogPostController {
   @Get(':id')
   public async show(@Param('id') id: string) {
     const post = await this.postService.getById(id);
-    const rdo = TypeRdoAdapterObject[post.type];
+    const rdo = TypeRdoAdapterObject[post.type] as never;
     return fillObject(rdo, post);
   }
 
@@ -54,7 +54,7 @@ export class BlogPostController {
   @Patch(':id')
   public async update(@Param('id') id: string, @Body() dto: CreatePostTextDto) {
     const updatedPost = await this.postService.update(id, dto);
-    const rdo = TypeRdoAdapterObject[updatedPost.type];
+    const rdo = TypeRdoAdapterObject[updatedPost.type] as never;
     return fillObject(rdo, updatedPost);
   }
 }

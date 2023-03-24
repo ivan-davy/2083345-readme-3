@@ -14,7 +14,7 @@ Content-Type: application/json
 ###
 
 # Get post by ID
-GET http://localhost:3333/api/auth/e3d04011-a093-4f50-9203-03660e6f02cc HTTP/1.1
+GET http://localhost:3333/api/post/8a4da666-31e6-458b-92ef-54d870582e3a HTTP/1.1
 
 ###
 
