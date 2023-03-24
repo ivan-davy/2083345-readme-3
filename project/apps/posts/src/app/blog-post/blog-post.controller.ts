@@ -1,11 +1,37 @@
 import {Body, Controller, Get, HttpStatus, Param, Patch, Post} from '@nestjs/common';
 import {CreatePostTextDto} from './dto/create-post-text.dto';
-import {ApiResponse, ApiTags} from '@nestjs/swagger';
+import {ApiExtraModels, ApiResponse, ApiTags} from '@nestjs/swagger';
 import {BlogPostService} from './blog-post.service';
 import {PostRdo} from './rdo/post.rdo';
 import {fillRdoForPost} from './utils/fill-rdo-for-post';
+import {PostTextRdo} from './rdo/post-text.rdo';
+import {PostImageRdo} from './rdo/post-image.rdo';
+import {PostVideoRdo} from './rdo/post-video.rdo';
+import {PostLinkRdo} from './rdo/post-link.rdo';
+import {PostQuoteRdo} from './rdo/post-quote.rdo';
+import {CreatePostDto} from './dto/create-post.dto';
+import {CreatePostImageDto} from './dto/create-post-image.dto';
+import {CreatePostVideoDto} from './dto/create-post-video.dto';
+import {CreatePostLinkDto} from './dto/create-post-link.dto';
+import {CreatePostQuoteDto} from './dto/create-post-quote.dto';
 
 @ApiTags('posts')
+@ApiExtraModels(
+  PostRdo,
+  PostTextRdo,
+  PostImageRdo,
+  PostVideoRdo,
+  PostLinkRdo,
+  PostQuoteRdo
+)
+@ApiExtraModels(
+  CreatePostDto,
+  CreatePostTextDto,
+  CreatePostImageDto,
+  CreatePostVideoDto,
+  CreatePostLinkDto,
+  CreatePostQuoteDto
+)
 @Controller('post')
 export class BlogPostController {
   constructor(
