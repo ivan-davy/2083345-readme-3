@@ -6,7 +6,7 @@ import {BlogPostService} from './blog-post.service';
 @Module({
   providers: [BlogPostMemoryRepository, BlogPostService],
   controllers: [BlogPostController],
-  exports: [BlogPostMemoryRepository, BlogPostService]
+  exports: [BlogPostService]
 })
 @Module({})
 export class BlogPostModule {}

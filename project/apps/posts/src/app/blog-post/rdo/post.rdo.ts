@@ -45,7 +45,7 @@ export class PostRdo {
     example: '2000-10-31T01:30:00.000-05:00'
   })
   @Expose()
-  public postDate: string;
+  public postedDate: string;
 
   @ApiProperty({
     description: 'Number of likes',

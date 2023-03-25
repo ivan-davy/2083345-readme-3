@@ -6,7 +6,7 @@ import {BlogCommentMemoryRepository} from './blog-comment-memory.repository';
 @Module({
   providers: [BlogCommentMemoryRepository, BlogCommentService],
   controllers: [BlogCommentController],
-  exports: [BlogCommentMemoryRepository, BlogCommentService]
+  exports: [BlogCommentService]
 })
 @Module({})
 export class BlogCommentModule {}
