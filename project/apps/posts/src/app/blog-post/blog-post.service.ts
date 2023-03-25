@@ -1,4 +1,4 @@
-import {Injectable} from '@nestjs/common';
+import {Injectable, NotFoundException} from '@nestjs/common';
 import {BlogPostMemoryRepository} from './blog-post-memory.repository';
 import {CreatePostTextDto} from './dto/create-post-text.dto';
 import {CreatePostImageDto} from './dto/create-post-image.dto';
@@ -7,6 +7,7 @@ import {CreatePostLinkDto} from './dto/create-post-link.dto';
 import {CreatePostQuoteDto} from './dto/create-post-quote.dto';
 import {TypeEntityAdapterObject} from './utils/type-entity-adapter.object';
 import dayjs from 'dayjs';
+import {POST_NOT_FOUND_ERROR} from './blog-post.const';
 
 
 @Injectable()
@@ -50,7 +51,11 @@ export class BlogPostService {
   }
 
   public async getById(id: string) {
-    return this.blogPostRepository.findById(id);
+    const post = await this.blogPostRepository.findById(id);
+    if (!post) {
+      throw new NotFoundException(POST_NOT_FOUND_ERROR);
+    }
+    return post;
   }
 
   public async remove(

@@ -13,7 +13,7 @@ export class CommentRdo {
     description: 'Commented post ID',
     example: 'hgrg-ergujhi3u4-gredsvr4'
   })
-  @Expose({name: '_postId'})
+  @Expose()
   public postId: string;
 
   @ApiProperty({

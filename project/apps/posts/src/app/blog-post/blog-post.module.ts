@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
-import { BlogPostMemoryRepository } from './blog-post-memory.repository';
 import {BlogPostController} from './blog-post.controller';
 import {BlogPostService} from './blog-post.service';
+import {BlogPostMemoryRepository} from './blog-post-memory.repository';
 
 @Module({
-  providers: [BlogPostMemoryRepository, BlogPostService],
+  providers: [BlogPostService, BlogPostMemoryRepository],
   controllers: [BlogPostController],
   exports: [BlogPostService]
 })

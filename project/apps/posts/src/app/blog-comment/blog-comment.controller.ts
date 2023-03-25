@@ -1,4 +1,4 @@
-import {Body, Controller, Get, HttpStatus, Param, Patch, Post} from '@nestjs/common';
+import {Body, Controller, Delete, Get, HttpStatus, Param, Post} from '@nestjs/common';
 import {ApiResponse, ApiTags} from '@nestjs/swagger';
 import {CommentRdo} from './rdo/comment.rdo';
 import {CreateCommentDto} from './dto/create-comment.dto';
@@ -22,7 +22,7 @@ export class BlogCommentController {
   @Post('new')
   public async create(@Body() dto: CreateCommentDto) {
     const newComment = await this.commentService.create(dto);
-    return fillObject(CreateCommentDto, newComment);
+    return fillObject(CommentRdo, newComment);
   }
 
   @ApiResponse({
@@ -37,14 +37,14 @@ export class BlogCommentController {
   @Get('post/:postId')
   public async showByPostId(@Param('postId') postId: string) {
     const comments = await this.commentService.getByPostId(postId);
-    return fillObject(CreateCommentDto, comments);
+    return fillObject(CommentRdo, comments);
   }
 
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Comment successfully deleted.',
   })
-  @Patch(':commentId')
+  @Delete(':commentId')
   public async remove(@Param('commentId') commentId: string) {
     return await this.commentService.remove(commentId);
   }

@@ -2,15 +2,15 @@ import {Injectable} from '@nestjs/common';
 import dayjs from 'dayjs';
 import {CreateCommentDto} from './dto/create-comment.dto';
 import {BlogCommentEntity} from './blog-comment.entity';
-import {BlogPostMemoryRepository} from '../blog-post/blog-post-memory.repository';
 import {BlogCommentMemoryRepository} from './blog-comment-memory.repository';
+import {BlogPostService} from '../blog-post/blog-post.service';
 
 
 @Injectable()
 export class BlogCommentService {
   constructor(
     private readonly blogCommentRepository: BlogCommentMemoryRepository,
-    private readonly blogPostRepository: BlogPostMemoryRepository,
+    private readonly blogPostService: BlogPostService,
   ) {}
 
   public async create(
@@ -36,8 +36,8 @@ export class BlogCommentService {
   }
 
   public async getByPostId(id: string) {
-    const post = this.blogPostRepository.findById(id);
-    return post;
+    // Not yet implemented
+    return this.blogPostService.getById(id);
   }
 
 }
