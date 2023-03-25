@@ -1,4 +1,4 @@
-import {Body, Controller, Get, HttpStatus, Param, Patch, Post} from '@nestjs/common';
+import {Body, Controller, Delete, Get, HttpStatus, Param, Patch, Post} from '@nestjs/common';
 import {CreatePostTextDto} from './dto/create-post-text.dto';
 import {ApiExtraModels, ApiResponse, ApiTags} from '@nestjs/swagger';
 import {BlogPostService} from './blog-post.service';
@@ -47,7 +47,6 @@ export class BlogPostController {
   @Post('new')
   public async create(@Body() dto: CreatePostTextDto) {
     const newPost = await this.postService.create(dto);
-    console.log(newPost);
     return fillRdoForPost(newPost);
   }
 
@@ -63,7 +62,6 @@ export class BlogPostController {
   @Get(':id')
   public async show(@Param('id') id: string) {
     const post = await this.postService.getById(id);
-    console.log(post);
     return fillRdoForPost(post);
   }
 
@@ -75,7 +73,15 @@ export class BlogPostController {
   @Patch(':id')
   public async update(@Param('id') id: string, @Body() dto: CreatePostTextDto) {
     const updatedPost = await this.postService.update(id, dto);
-    console.log(updatedPost);
     return fillRdoForPost(updatedPost);
+  }
+
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Post successfully deleted.',
+  })
+  @Delete(':id')
+  public async delete(@Param('id') id: string) {
+    return await this.postService.remove(id);
   }
 }

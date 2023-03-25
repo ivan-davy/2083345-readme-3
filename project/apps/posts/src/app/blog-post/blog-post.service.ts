@@ -53,5 +53,12 @@ export class BlogPostService {
     return this.blogPostRepository.findById(id);
   }
 
+  public async remove(
+    postId: string,
+  ) {
+    return this.blogPostRepository
+      .destroy(postId);
+  }
+
 }
 
