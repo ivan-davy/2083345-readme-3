@@ -11,12 +11,6 @@ export class BlogUserModel extends Document implements UserInterface {
     required: true,
     unique: true,
   })
-  public _id: string;
-
-  @Prop({
-    required: true,
-    unique: true,
-  })
   public email: string;
 
   @Prop({
@@ -32,9 +26,7 @@ export class BlogUserModel extends Document implements UserInterface {
   })
   public passwordHash: string;
 
-  @Prop({
-    required: true,
-  })
+  @Prop()
   public registrationDate: string;
 
   @Prop({

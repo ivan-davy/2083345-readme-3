@@ -13,12 +13,12 @@ export class AuthenticationService {
   ) {}
 
   public async register(dto: CreateUserDto) {
-    const {email, name, avatar, password} = dto;
+    const {email, name, avatar='', password} = dto;
 
     const blogUser = {
       email, name,
-      avatar: '',
-      passwordHash: ''
+      avatar,
+      passwordHash: '',
     };
 
     const existUser = await this.blogUserRepository

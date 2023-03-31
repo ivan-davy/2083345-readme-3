@@ -13,7 +13,7 @@ export class BlogUserRepository implements CrudRepositoryInterface<BlogUserEntit
   }
 
   public async create(item: BlogUserEntity): Promise<UserInterface> {
-    const newBlogUser = new this.blogUserModel(item);
+    const newBlogUser = new this.blogUserModel({...item, postsQty: 0, subscribersQty: 0});
     return newBlogUser.save();
   }
 
@@ -22,9 +22,11 @@ export class BlogUserRepository implements CrudRepositoryInterface<BlogUserEntit
   }
 
   public async findById(id: string): Promise<UserInterface | null> {
-    return this.blogUserModel
-      .findOne({id})
+    const result = this.blogUserModel
+      .findOne({'_id': id})
       .exec();
+    console.log(await result);
+    return result;
   }
 
   public async findByEmail(email: string): Promise<UserInterface | null> {
