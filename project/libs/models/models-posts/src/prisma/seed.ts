@@ -1,7 +1,6 @@
-import { PrismaClient } from '@prisma/client';
+import {PrismaClient} from '@prisma/client';
 
 const prisma = new PrismaClient();
-
 async function fillDb() {
   await prisma.post.upsert({
     where: { postId: 1 },
