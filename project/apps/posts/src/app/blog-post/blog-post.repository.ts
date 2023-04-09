@@ -1,5 +1,5 @@
 import { BlogPostEntity } from './blog-post.entity';
-import { PostInterface } from '@project/shared/app-types';
+import {PostInterface, PostStatusEnum, PostTypeEnum} from '@project/shared/app-types';
 import { Injectable } from '@nestjs/common';
 import { CrudRepositoryInterface } from '@project/util/util-types';
 import { PrismaService } from '../prisma/prisma.service';
@@ -9,9 +9,14 @@ export class BlogPostRepository implements CrudRepositoryInterface<BlogPostEntit
   constructor(private readonly prisma: PrismaService) {}
 
   public async create(item: BlogPostEntity): Promise<PostInterface> {
-    return this.prisma.post.create({
+    const post = await this.prisma.post.create({
       data: { ...item.toObject() }
     });
+    const postedDate = post.postedDate.toISOString()
+    const creationDate = post.creationDate.toISOString()
+    const type = post.type as PostTypeEnum
+    const status = post.type as PostStatusEnum
+    return {...post, postedDate, creationDate, type, status};
   }
 
   public async destroy(postId: number): Promise<void> {
