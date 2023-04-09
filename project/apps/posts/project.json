@@ -90,7 +90,7 @@
     "db:seed": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "npx ts-node seed.ts",
+        "command":  "ts-node --compiler-options {\\\"module\\\":\\\"CommonJS\\\"} seed.ts",
         "cwd": "libs/models/models-posts/src/prisma"
       }
     }

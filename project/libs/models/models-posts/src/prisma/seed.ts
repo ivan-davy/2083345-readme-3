@@ -23,7 +23,7 @@ async function fillDb() {
       },
     }
   });
-  console.info('🤘️ Database was filled')
+  console.info('Database was filled')
 }
 
 fillDb()

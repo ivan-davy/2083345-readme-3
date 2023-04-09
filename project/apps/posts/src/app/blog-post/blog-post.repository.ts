@@ -5,7 +5,7 @@ import { CrudRepositoryInterface } from '@project/util/util-types';
 import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
-export class BlogpostRepository implements CrudRepositoryInterface<BlogPostEntity, number, PostInterface> {
+export class BlogPostRepository implements CrudRepositoryInterface<BlogPostEntity, number, PostInterface> {
   constructor(private readonly prisma: PrismaService) {}
 
   public async create(item: BlogPostEntity): Promise<PostInterface> {

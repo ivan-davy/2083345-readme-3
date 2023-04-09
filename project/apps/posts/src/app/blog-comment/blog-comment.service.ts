@@ -2,14 +2,14 @@ import {Injectable} from '@nestjs/common';
 import dayjs from 'dayjs';
 import {CreateCommentDto} from './dto/create-comment.dto';
 import {BlogCommentEntity} from './blog-comment.entity';
-import {BlogCommentMemoryRepository} from './blog-comment-memory.repository';
 import {BlogPostService} from '../blog-post/blog-post.service';
+import {BlogCommentRepository} from './blog-comment.repository';
 
 
 @Injectable()
 export class BlogCommentService {
   constructor(
-    private readonly blogCommentRepository: BlogCommentMemoryRepository,
+    private readonly blogCommentRepository: BlogCommentRepository,
     private readonly blogPostService: BlogPostService,
   ) {}
 

@@ -13,7 +13,7 @@ services:
       - readme.postgres.posts:/var/lib/postgresql/data
 
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U admin -d test" ]
+      test: [ "CMD-SHELL", "pg_isready -U admin -d readme-posts" ]
       interval: 10s
       timeout: 5s
       retries: 5

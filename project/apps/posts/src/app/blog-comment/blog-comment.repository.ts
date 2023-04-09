@@ -5,17 +5,17 @@ import { CrudRepositoryInterface } from '@project/util/util-types';
 import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
-export class BlogpostRepository implements CrudRepositoryInterface<BlogCommentEntity, number, CommentInterface> {
+export class BlogCommentRepository implements CrudRepositoryInterface<BlogCommentEntity, number, CommentInterface> {
   constructor(private readonly prisma: PrismaService) {}
 
   public async create(item: BlogCommentEntity): Promise<CommentInterface> {
-    return this.prisma.post.create({
+    return this.prisma.comment.create({
       data: { ...item.toObject() }
     });
   }
 
   public async destroy(postId: number): Promise<void> {
-    await this.prisma.post.delete({
+    await this.prisma.comment.delete({
       where: {
         postId,
       }
@@ -23,7 +23,7 @@ export class BlogpostRepository implements CrudRepositoryInterface<BlogCommentEn
   }
 
   public findById(postId: number): Promise<CommentInterface | null> {
-    return this.prisma.post.findFirst({
+    return this.prisma.comment.findFirst({
       where: {
         postId
       }
@@ -31,7 +31,7 @@ export class BlogpostRepository implements CrudRepositoryInterface<BlogCommentEn
   }
 
   public find(ids: number[] = []): Promise<CommentInterface[]> {
-    return this.prisma.post.findMany({
+    return this.prisma.comment.findMany({
       where: {
         postId: {
           in: ids.length > 0 ? ids : undefined
@@ -41,7 +41,7 @@ export class BlogpostRepository implements CrudRepositoryInterface<BlogCommentEn
   }
 
   public update(postId: number, item: BlogCommentEntity): Promise<CommentInterface> {
-    return this.prisma.post.update({
+    return this.prisma.comment.update({
       where: {
         postId
       },
