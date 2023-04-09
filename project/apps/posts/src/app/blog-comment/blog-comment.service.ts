@@ -19,7 +19,6 @@ export class BlogCommentService {
     const blogComment = {
       ...dto,
       _authorId: '',
-      postedDate: dayjs().toISOString(),
     };
 
     const commentEntity = new BlogCommentEntity(blogComment);
@@ -35,9 +34,11 @@ export class BlogCommentService {
       .destroy(Number(commentId));
   }
 
-  public async getByPostId(id: number) {
-    // Not yet implemented
-    return this.blogPostService.getById(Number(id));
+  public async getByPostId(
+    postId: number,
+  ) {
+    return this.blogCommentRepository
+      .findByPostId(postId)
   }
 
 }

@@ -3,15 +3,21 @@ import { CommentInterface } from '@project/shared/app-types';
 import { Injectable } from '@nestjs/common';
 import { CrudRepositoryInterface } from '@project/util/util-types';
 import { PrismaService } from '../prisma/prisma.service';
+import {prismaCommentToComment} from './utils/prisma-comment-to-comment';
 
 @Injectable()
 export class BlogCommentRepository implements CrudRepositoryInterface<BlogCommentEntity, number, CommentInterface> {
   constructor(private readonly prisma: PrismaService) {}
 
   public async create(item: BlogCommentEntity): Promise<CommentInterface> {
-    const comment = await this.prisma.comment.create({
-      data: { ...item.toObject() }
-    });
+    const data = {
+      ...item.toObject(),
+      authorId: item._authorId,
+    }
+    delete data._authorId;
+    delete data._id;
+
+    const comment = await this.prisma.comment.create({data});
     const postedDate = comment.postedDate.toISOString();
     return {...comment, postedDate}
   }
@@ -30,21 +36,17 @@ export class BlogCommentRepository implements CrudRepositoryInterface<BlogCommen
         commentId
       }
     });
-    const postedDate = comment.postedDate.toISOString();
-    return {...comment, postedDate}
+    return prismaCommentToComment(comment);
   }
 
-  public async find(commentId: number[] = []): Promise<CommentInterface[]> {
+  public async findByPostId(postId: number): Promise<CommentInterface[]> {
     const comments = await this.prisma.comment.findMany({
       where: {
-        commentId: {
-          in: commentId.length > 0 ? commentId : undefined
-        }
+        postId
       }
     });
     return comments.map((item) => {
-      const postedDate = item.postedDate.toISOString();
-      return {...item, postedDate}
+      return prismaCommentToComment(item);
     })
   }
 
@@ -53,9 +55,9 @@ export class BlogCommentRepository implements CrudRepositoryInterface<BlogCommen
       where: {
         commentId
       },
-      data: { ...item.toObject(), commentId}
+      data: {...item.toObject(), commentId}
     });
-    const postedDate = comment.postedDate.toISOString();
-    return {...comment, postedDate}
+    return prismaCommentToComment(comment);
+
   }
 }

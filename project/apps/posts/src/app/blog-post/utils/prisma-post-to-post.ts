@@ -3,7 +3,7 @@ import {Post} from '@prisma/client';
 
 export function prismaPostToPost(prismaPost: Post | null): PostInterface {
   if (prismaPost) {
-    return {
+    const post = {
       ...prismaPost,
       postedDate: prismaPost.postedDate.toISOString(),
       creationDate: prismaPost.creationDate.toISOString(),
@@ -13,6 +13,10 @@ export function prismaPostToPost(prismaPost: Post | null): PostInterface {
       _origAuthorId: prismaPost.origAuthorId,
       _authorId: prismaPost.authorId
     };
+    delete post.postId;
+    delete post.authorId;
+    delete post.origAuthorId;
+    return post;
   }
   return null;
 }
