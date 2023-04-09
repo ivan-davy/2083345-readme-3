@@ -9,43 +9,53 @@ export class BlogCommentRepository implements CrudRepositoryInterface<BlogCommen
   constructor(private readonly prisma: PrismaService) {}
 
   public async create(item: BlogCommentEntity): Promise<CommentInterface> {
-    return this.prisma.comment.create({
+    const comment = await this.prisma.comment.create({
       data: { ...item.toObject() }
     });
+    const postedDate = comment.postedDate.toISOString();
+    return {...comment, postedDate}
   }
 
-  public async destroy(postId: number): Promise<void> {
+  public async destroy(commentId: number): Promise<void> {
     await this.prisma.comment.delete({
       where: {
-        postId,
+        commentId,
       }
     });
   }
 
-  public findById(postId: number): Promise<CommentInterface | null> {
-    return this.prisma.comment.findFirst({
+  public async findById(commentId: number): Promise<CommentInterface | null> {
+    const comment = await this.prisma.comment.findFirst({
       where: {
-        postId
+        commentId
       }
     });
+    const postedDate = comment.postedDate.toISOString();
+    return {...comment, postedDate}
   }
 
-  public find(ids: number[] = []): Promise<CommentInterface[]> {
-    return this.prisma.comment.findMany({
+  public async find(commentId: number[] = []): Promise<CommentInterface[]> {
+    const comments = await this.prisma.comment.findMany({
       where: {
-        postId: {
-          in: ids.length > 0 ? ids : undefined
+        commentId: {
+          in: commentId.length > 0 ? commentId : undefined
         }
       }
     });
+    return comments.map((item) => {
+      const postedDate = item.postedDate.toISOString();
+      return {...item, postedDate}
+    })
   }
 
-  public update(postId: number, item: BlogCommentEntity): Promise<CommentInterface> {
-    return this.prisma.comment.update({
+  public async update(commentId: number, item: BlogCommentEntity): Promise<CommentInterface> {
+    const comment = await this.prisma.comment.update({
       where: {
-        postId
+        commentId
       },
-      data: { ...item.toObject(), postId}
+      data: { ...item.toObject(), commentId}
     });
+    const postedDate = comment.postedDate.toISOString();
+    return {...comment, postedDate}
   }
 }

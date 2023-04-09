@@ -22,20 +22,20 @@ export class BlogCommentService {
       postedDate: dayjs().toISOString(),
     };
 
-    const commentEntity = await new BlogCommentEntity(blogComment);
+    const commentEntity = new BlogCommentEntity(blogComment);
 
     return this.blogCommentRepository
       .create(commentEntity);
   }
 
   public async remove(
-    commentId: string,
+    commentId: number,
   ) {
     return this.blogCommentRepository
       .destroy(commentId);
   }
 
-  public async getByPostId(id: string) {
+  public async getByPostId(id: number) {
     // Not yet implemented
     return this.blogPostService.getById(id);
   }

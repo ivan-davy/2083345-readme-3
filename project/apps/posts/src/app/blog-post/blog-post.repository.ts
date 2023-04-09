@@ -27,30 +27,47 @@ export class BlogPostRepository implements CrudRepositoryInterface<BlogPostEntit
     });
   }
 
-  public findById(postId: number): Promise<PostInterface | null> {
-    return this.prisma.post.findFirst({
+  public async findById(postId: number): Promise<PostInterface | null> {
+    const post = await this.prisma.post.findFirst({
       where: {
         postId
       }
     });
+    const postedDate = post.postedDate.toISOString()
+    const creationDate = post.creationDate.toISOString()
+    const type = post.type as PostTypeEnum
+    const status = post.type as PostStatusEnum
+    return {...post, postedDate, creationDate, type, status};
   }
 
-  public find(ids: number[] = []): Promise<PostInterface[]> {
-    return this.prisma.post.findMany({
+  public async find(ids: number[] = []): Promise<PostInterface[]> {
+    const posts = await this.prisma.post.findMany({
       where: {
         postId: {
           in: ids.length > 0 ? ids : undefined
         }
       }
     });
+    return posts.map((item) => {
+      const postedDate = item.postedDate.toISOString()
+      const creationDate = item.creationDate.toISOString()
+      const type = item.type as PostTypeEnum
+      const status = item.type as PostStatusEnum
+      return {...item, postedDate, creationDate, type, status}
+    })
   }
 
-  public update(postId: number, item: BlogPostEntity): Promise<PostInterface> {
-    return this.prisma.post.update({
+  public async update(postId: number, item: BlogPostEntity): Promise<PostInterface> {
+    const post = await this.prisma.post.update({
       where: {
         postId
       },
       data: { ...item.toObject(), postId}
     });
+    const postedDate = post.postedDate.toISOString()
+    const creationDate = post.creationDate.toISOString()
+    const type = post.type as PostTypeEnum
+    const status = post.type as PostStatusEnum
+    return {...post, postedDate, creationDate, type, status};
   }
 }
