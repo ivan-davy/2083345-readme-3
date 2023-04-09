@@ -32,12 +32,12 @@ export class BlogCommentService {
     commentId: number,
   ) {
     return this.blogCommentRepository
-      .destroy(commentId);
+      .destroy(Number(commentId));
   }
 
   public async getByPostId(id: number) {
     // Not yet implemented
-    return this.blogPostService.getById(id);
+    return this.blogPostService.getById(Number(id));
   }
 
 }
