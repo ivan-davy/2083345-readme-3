@@ -8,7 +8,8 @@ import {TypeEntityAdapterObject} from './utils/type-entity-adapter.object';
 import dayjs from 'dayjs';
 import {POST_NOT_FOUND_ERROR} from './blog-post.const';
 import {BlogPostRepository} from './blog-post.repository';
-import {PostStatusEnum} from '@project/shared/app-types';
+import {PostInterface, PostStatusEnum} from '@project/shared/app-types';
+import {PostQuery} from './query/post.query';
 
 
 @Injectable()
@@ -58,6 +59,10 @@ export class BlogPostService {
       throw new NotFoundException(POST_NOT_FOUND_ERROR);
     }
     return post;
+  }
+
+  async get(query: PostQuery): Promise<PostInterface[]> {
+    return this.blogPostRepository.find(query);
   }
 
   public async remove(

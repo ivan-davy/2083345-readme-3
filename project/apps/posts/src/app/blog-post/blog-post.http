@@ -3,6 +3,11 @@ GET http://localhost:3333/api/post/10 HTTP/1.1
 
 ###
 
+# Get all posts and filtres
+GET http://localhost:3333/api/posts?sortDirection=desc&limit=2&page=1 HTTP/1.1
+
+###
+
 # Delete post by ID
 DELETE http://localhost:3333/api/post/10 HTTP/1.1
 
@@ -14,11 +19,11 @@ Content-Type: application/json
 
 {
   "type": "text",
-  "status": "draft",
-  "title": "TITLE",
-  "announcement": "ANNOUNCEMENT",
+  "status": "posted",
+  "title": "4yuguiyhpuihphpuihphpuhpuihpu",
+  "announcement": "yuguiyhpuihphpuihphpuhpuihpuyuguiyhpuihphpuihphpuhpuihpuyuguiyhpuihphpuihphpuhpuihpu",
   "description": "DESCRIPTION",
-  "text": "heya",
+  "text": "heyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheya",
   "tags": ["hello", "bye"]
 }
 

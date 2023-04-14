@@ -1,4 +1,4 @@
-import {Body, Controller, Delete, Get, HttpStatus, Param, Patch, Post} from '@nestjs/common';
+import {Body, Controller, Delete, Get, HttpStatus, Param, Patch, Post, Query} from '@nestjs/common';
 import {CreatePostTextDto} from './dto/create-post-text.dto';
 import {ApiExtraModels, ApiResponse, ApiTags} from '@nestjs/swagger';
 import {BlogPostService} from './blog-post.service';
@@ -14,6 +14,7 @@ import {CreatePostImageDto} from './dto/create-post-image.dto';
 import {CreatePostVideoDto} from './dto/create-post-video.dto';
 import {CreatePostLinkDto} from './dto/create-post-link.dto';
 import {CreatePostQuoteDto} from './dto/create-post-quote.dto';
+import {PostQuery} from './query/post.query';
 
 @ApiTags('posts')
 @ApiExtraModels(
@@ -48,6 +49,12 @@ export class BlogPostController {
   public async create(@Body() dto: CreatePostTextDto) {
     const newPost = await this.postService.create(dto);
     return fillRdoForPost(newPost);
+  }
+
+  @Get('/')
+  async index(@Query() query: PostQuery) {
+    const posts = await this.postService.get(query);
+    return posts.map((post) => fillRdoForPost(post));
   }
 
   @ApiResponse({
