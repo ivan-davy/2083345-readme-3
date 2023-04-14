@@ -8,3 +8,4 @@ export * from './lib/post-link.interface';
 export * from './lib/post-type.enum';
 export * from './lib/post-status.enum';
 export * from './lib/comment.interface';
+export * from './lib/file.interface';
