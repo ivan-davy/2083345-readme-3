@@ -35,8 +35,8 @@ export class BlogCommentController {
     description: 'Post not found.'
   })
   @Get('post/:postId')
-  public async showByPostId(@Param('postId') postId: string) {
-    const comments = await this.commentService.getByPostId(Number(postId));
+  public async showByPostId(@Param('postId') postId: number) {
+    const comments = await this.commentService.getByPostId(postId);
     return fillObject(CommentRdo, comments);
   }
 

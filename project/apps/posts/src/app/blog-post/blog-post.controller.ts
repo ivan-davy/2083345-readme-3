@@ -60,8 +60,8 @@ export class BlogPostController {
     description: 'Post not found.'
   })
   @Get(':id')
-  public async show(@Param('id') id: string) {
-    const post = await this.postService.getById(Number(id));
+  public async show(@Param('id') id: number) {
+    const post = await this.postService.getById(id);
     return fillRdoForPost(post);
   }
 
@@ -71,8 +71,8 @@ export class BlogPostController {
     description: 'Post successfully updated.',
   })
   @Patch(':id')
-  public async update(@Param('id') id: string, @Body() dto: CreatePostTextDto) {
-    const updatedPost = await this.postService.update(Number(id), dto);
+  public async update(@Param('id') id: number, @Body() dto: CreatePostTextDto) {
+    const updatedPost = await this.postService.update(id, dto);
     return fillRdoForPost(updatedPost);
   }
 
@@ -85,7 +85,7 @@ export class BlogPostController {
     description: 'Post could not be deleted.'
   })
   @Delete(':id')
-  public async delete(@Param('id') id: string) {
-    return await this.postService.remove(Number(id));
+  public async delete(@Param('id') id: number) {
+    return await this.postService.remove(id);
   }
 }
