@@ -8,6 +8,7 @@ import {TypeEntityAdapterObject} from './utils/type-entity-adapter.object';
 import dayjs from 'dayjs';
 import {POST_NOT_FOUND_ERROR} from './blog-post.const';
 import {BlogPostRepository} from './blog-post.repository';
+import {PostStatusEnum} from '@project/shared/app-types';
 
 
 @Injectable()
@@ -20,6 +21,7 @@ export class BlogPostService {
     dto: CreatePostTextDto | CreatePostImageDto | CreatePostVideoDto | CreatePostLinkDto | CreatePostQuoteDto
   ) {
     const blogPost = {
+      status: PostStatusEnum.Posted,
       ...dto,
       _authorId: '',
       _origAuthorId: '',
