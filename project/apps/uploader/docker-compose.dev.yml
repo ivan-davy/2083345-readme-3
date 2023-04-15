@@ -11,13 +11,13 @@ services:
       MONGO_INITDB_DATABASE: readme-uploader
 
     ports:
-      - 27018:27017
+      - 27018:27018
 
     volumes:
       - readme.mongo.uploader:/data/db
 
     healthcheck:
-      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/readme-uploader --quiet
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27018/readme-uploader --quiet
       interval: 10s
       timeout: 10s
       retries: 5
@@ -31,7 +31,7 @@ services:
     environment:
       ME_CONFIG_MONGODB_ADMINUSERNAME: admin
       ME_CONFIG_MONGODB_ADMINPASSWORD: test
-      ME_CONFIG_MONGODB_URL: mongodb://admin:test@readme.uploader.mongo:27017/
+      ME_CONFIG_MONGODB_URL: mongodb://admin:test@readme.uploader.mongo:27018/
 
 volumes:
   readme.mongo.uploader:

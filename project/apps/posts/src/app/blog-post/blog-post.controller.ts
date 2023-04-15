@@ -51,6 +51,12 @@ export class BlogPostController {
     return fillRdoForPost(newPost);
   }
 
+  @ApiResponse({
+    type: PostRdo,
+    isArray: true,
+    status: HttpStatus.OK,
+    description: 'Posts data provided.'
+  })
   @Get('/')
   async index(@Query() query: PostQuery) {
     const posts = await this.postService.get(query);

@@ -1,6 +1,6 @@
 import {IsEnum, IsIn, IsMongoId, IsNumber, IsOptional, IsString, MaxLength, MinLength} from 'class-validator';
 import { Transform } from 'class-transformer';
-import {DEFAULT_POST_COUNT_LIMIT, DEFAULT_SORT_DIRECTION, POST_BAD_TAGS} from '../blog-post.const';
+import {DEFAULT_POST_COUNT_LIMIT, DEFAULT_SORT_BY, DEFAULT_SORT_DIRECTION, POST_BAD_TAGS} from '../blog-post.const';
 import {PostTypeEnum} from '@project/shared/app-types';
 
 export class PostQuery {
@@ -23,6 +23,10 @@ export class PostQuery {
   @IsEnum(PostTypeEnum)
   @IsOptional()
   public type?: string;
+
+  @IsIn(['creationDate', 'likesQty', 'commentsQty'])
+  @IsOptional()
+  public sortBy?: 'creationDate' | 'likesQty' | 'commentsQty' = DEFAULT_SORT_BY;
 
   @IsIn(['asc', 'desc'])
   @IsOptional()

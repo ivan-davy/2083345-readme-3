@@ -62,7 +62,7 @@ export class AuthenticationController {
   @UseGuards(JwtAuthGuard)
   @Get(':id')
   public async show(@Param('id', MongoidValidationPipe) id: string) {
-    const existUser = await this.authService.getUser(id);
-    return fillObject(UserRdo, existUser);
+    const existingUser = await this.authService.getUser(id);
+    return fillObject(UserRdo, existingUser);
   }
 }

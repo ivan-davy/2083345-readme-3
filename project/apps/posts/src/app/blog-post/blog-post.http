@@ -1,10 +1,10 @@
 # Get post by ID
-GET http://localhost:3333/api/post/10 HTTP/1.1
+GET http://localhost:3333/api/post/9 HTTP/1.1
 
 ###
 
-# Get all posts and filtres
-GET http://localhost:3333/api/posts?sortDirection=desc&limit=2&page=1 HTTP/1.1
+# Get all posts
+GET http://localhost:3333/api/post HTTP/1.1
 
 ###
 
