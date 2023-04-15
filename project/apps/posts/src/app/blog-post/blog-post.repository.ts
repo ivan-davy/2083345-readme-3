@@ -47,6 +47,7 @@ export class BlogPostRepository implements CrudRepositoryInterface<BlogPostEntit
         tags: {
           some: { tag }
         },
+        type: type
       },
       take: limit,
       include: {

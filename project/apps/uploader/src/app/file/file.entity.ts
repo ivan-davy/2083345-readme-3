@@ -9,7 +9,7 @@ export class FileEntity implements Entity<FileEntity>, FileInterface {
   public path: string;
   public size: number;
 
-  constructor(file: File) {
+  constructor(file: FileInterface) {
     this.fillEntity(file);
   }
 
