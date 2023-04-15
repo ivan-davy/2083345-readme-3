@@ -1,5 +1,5 @@
 import { BlogPostEntity } from './blog-post.entity';
-import {PostInterface, PostStatusEnum} from '@project/shared/app-types';
+import {PostInterface, PostStatusEnum, PostTypeEnum} from '@project/shared/app-types';
 import { Injectable } from '@nestjs/common';
 import { CrudRepositoryInterface } from '@project/util/util-types';
 import { PrismaService } from '../prisma/prisma.service';
@@ -40,14 +40,14 @@ export class BlogPostRepository implements CrudRepositoryInterface<BlogPostEntit
     return prismaPostToPost(post);
   }
 
-  public find({limit, tag, type, sortDirection, page}: PostQuery): Promise<PostInterface[]> {
-    return this.prisma.post.findMany({
+  public async find({limit, tag, type, sortDirection, page}: PostQuery): Promise<PostInterface[]> {
+    const posts = await this.prisma.post.findMany({
       where: {
-        status: PostStatusEnum.Posted,
-        tags: {
-          some: { tag }
-        },
-        type: type
+        AND: {
+          status: PostStatusEnum.Posted,
+          tags: { has: tag },
+          type: type as PostTypeEnum
+        }
       },
       take: limit,
       include: {
@@ -58,6 +58,7 @@ export class BlogPostRepository implements CrudRepositoryInterface<BlogPostEntit
       ],
       skip: page > 0 ? limit * (page - 1) : undefined,
     });
+    return posts.map((post) => prismaPostToPost(post))
   }
 
   public async update(postId: number, item: BlogPostEntity): Promise<PostInterface> {
