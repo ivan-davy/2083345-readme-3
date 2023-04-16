@@ -1,3 +1,5 @@
+
+
 # Create a new user
 POST http://localhost:3000/api/auth/register HTTP/1.1
 Content-Type: application/json
@@ -13,7 +15,7 @@ Content-Type: application/json
 
 # Get user by ID
 GET http://localhost:3000/api/auth/643b0353a7a73633372a89c6 HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NDNiMDM1M2E3YTczNjMzMzcyYTg5YzYiLCJlbWFpbCI6Imtla3Npc3NpbW9AbWFpbC5jb20iLCJuYW1lIjoiS2VrcyIsImlhdCI6MTY4MTU4OTA5OCwiZXhwIjoxNjgxNTkyNjk4fQ.6ICMLbwJWE2WjOmNMX5qFwJDnpOzE-A61B4psLMx7Wk
+Authorization: {{jwt_token}}
 
 
 ###

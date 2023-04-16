@@ -64,7 +64,7 @@ export class BlogPostController {
     description: 'Posts data provided.'
   })
   @Get('/')
-  async index(@Query() query: PostQuery) {
+  async show(@Query() query: PostQuery) {
     const posts = await this.postService.get(query);
     return posts.map((post) => fillRdoForPost(post));
   }
@@ -79,7 +79,7 @@ export class BlogPostController {
     description: 'Post not found.'
   })
   @Get(':id')
-  public async show(@Param('id') id: number) {
+  public async showById(@Param('id') id: number) {
     const post = await this.postService.getById(id);
     return fillRdoForPost(post);
   }
