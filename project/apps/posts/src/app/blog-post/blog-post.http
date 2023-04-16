@@ -22,10 +22,12 @@ Content-Type: application/json
   "status": "posted",
   "title": "4yuguiyhpuihphpuihphpuhpuihpu",
   "announcement": "yuguiyhpuihphpuihphpuhpuihpuyuguiyhpuihphpuihphpuhpuihpuyuguiyhpuihphpuihphpuhpuihpu",
-  "description": "DESCRIPTION",
+  "description": "DESCRIPTIONNNNNNNNNNN",
   "text": "heyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheya",
-  "tags": ["hello", "bye"]
+  "tags": ["df", "bsdfsdgye"]
 }
+
+
 
 ###
 
@@ -45,10 +47,22 @@ Content-Type: application/json
 
 {
   "type": "image",
-  "status": "posted",
-  "title": "TITLE",
-  "imageLink": "IMAGELINK",
-  "tags": ["hello", "bye"]
+  "title": "TITLEEEEEEEEEEEEEEEEEEEEEEE",
+  "imageLink": "https://www.okok.com/feed/img.png",
+  "tags": ["3jjjjiee", "pppppp"]
+}
+
+###
+
+# Create a new video post
+POST http://localhost:3333/api/post/new HTTP/1.1
+Content-Type: application/json
+
+{
+  "type": "video",
+  "description": "TITLEEEEEEEEEEEEEEEEEEEEEEE",
+  "videoLink": "d.com/bbbbbbbbbbb",
+  "tags": ["p3ppppp", "gggdj", "pppppp", "gg1j", "apppppp"]
 }
 
 ###

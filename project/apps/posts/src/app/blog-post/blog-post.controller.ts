@@ -1,4 +1,4 @@
-import {Body, Controller, Delete, Get, HttpStatus, Param, Patch, Post, Query} from '@nestjs/common';
+import {Body, Controller, Delete, Get, HttpStatus, Param, Patch, Post, Query, ValidationPipe} from '@nestjs/common';
 import {CreatePostTextDto} from './dto/create-post-text.dto';
 import {ApiExtraModels, ApiResponse, ApiTags} from '@nestjs/swagger';
 import {BlogPostService} from './blog-post.service';
@@ -15,6 +15,7 @@ import {CreatePostVideoDto} from './dto/create-post-video.dto';
 import {CreatePostLinkDto} from './dto/create-post-link.dto';
 import {CreatePostQuoteDto} from './dto/create-post-quote.dto';
 import {PostQuery} from './query/post.query';
+import {CustomPostValidationPipe} from './validators/custom-post-validation.pipe';
 
 @ApiTags('posts')
 @ApiExtraModels(
@@ -46,7 +47,10 @@ export class BlogPostController {
     description: 'Post successfully created.',
   })
   @Post('new')
-  public async create(@Body() dto: CreatePostTextDto) {
+  public async create(
+    @Body()
+      dto: CreatePostDto,
+  ) {
     const newPost = await this.postService.create(dto);
     return fillRdoForPost(newPost);
   }
@@ -84,7 +88,12 @@ export class BlogPostController {
     description: 'Post successfully updated.',
   })
   @Patch(':id')
-  public async update(@Param('id') id: number, @Body() dto: CreatePostTextDto) {
+  public async update(
+    @Param('id')
+      id: number,
+    @Body()
+      dto: CreatePostTextDto | CreatePostImageDto | CreatePostVideoDto | CreatePostLinkDto | CreatePostQuoteDto
+  ) {
     const updatedPost = await this.postService.update(id, dto);
     return fillRdoForPost(updatedPost);
   }

@@ -15,8 +15,7 @@ export class CreatePostVideoDto extends CreatePostDto {
 
   @ApiProperty({
     description: 'Post video link',
-    example: 'youtube.com/aaaaaaa'
+    example: 'youtube.com/bbbbbbbbbbb'
   })
-  @Matches(/youtu(?:.*\/v\/|.*v\=|\.be\/)([A-Za-z0-9_\-]{11})/, {message: POST_NOT_YOUTUBE_URL})
   public videoLink: string;
 }

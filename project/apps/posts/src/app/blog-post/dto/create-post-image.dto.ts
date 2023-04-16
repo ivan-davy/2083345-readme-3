@@ -1,6 +1,6 @@
 import {ApiProperty} from '@nestjs/swagger';
 import {CreatePostDto} from './create-post.dto';
-import {IsString, MaxLength, MinLength} from 'class-validator';
+import {IsString, IsUrl, MaxLength, MinLength} from 'class-validator';
 
 export class CreatePostImageDto extends CreatePostDto {
   @ApiProperty({
@@ -17,5 +17,6 @@ export class CreatePostImageDto extends CreatePostDto {
     example: '/imgs/image.png'
   })
   @IsString()
+  @IsUrl()
   public imageLink: string;
 }

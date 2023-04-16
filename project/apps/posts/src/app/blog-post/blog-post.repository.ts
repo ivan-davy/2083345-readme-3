@@ -1,9 +1,9 @@
-import { BlogPostEntity } from './blog-post.entity';
+import {BlogPostEntity} from './blog-post.entity';
 import {PostInterface, PostStatusEnum, PostTypeEnum} from '@project/shared/app-types';
-import { Injectable } from '@nestjs/common';
-import { CrudRepositoryInterface } from '@project/util/util-types';
-import { PrismaService } from '../prisma/prisma.service';
-import { prismaPostToPost } from './utils/prisma-post-to-post';
+import {Injectable} from '@nestjs/common';
+import {CrudRepositoryInterface} from '@project/util/util-types';
+import {PrismaService} from '../prisma/prisma.service';
+import {prismaPostToPost} from './utils/prisma-post-to-post';
 import {PostQuery} from './query/post.query';
 
 @Injectable()
@@ -41,11 +41,12 @@ export class BlogPostRepository implements CrudRepositoryInterface<BlogPostEntit
   }
 
   public async find({limit, tag, type, sortBy, sortDirection, page}: PostQuery): Promise<PostInterface[]> {
-    let posts = await this.prisma.post.findMany({
+    const queryObject = {
       where: {
         AND: {
           status: PostStatusEnum.Posted,
-          type: type as PostTypeEnum
+          type: type as PostTypeEnum,
+          tags: undefined
         }
       },
       take: limit,
@@ -56,12 +57,12 @@ export class BlogPostRepository implements CrudRepositoryInterface<BlogPostEntit
         { [sortBy]: sortDirection }
       ],
       skip: page > 0 ? limit * (page - 1) : undefined,
-    });
-
+    }
     if (tag) {
-      posts = posts.filter((post) => post.tags.includes(tag.toLowerCase()))
+      queryObject.where.AND.tags = { has: tag };
     }
 
+    const posts = await this.prisma.post.findMany(queryObject);
     return posts.map((post) => prismaPostToPost(post))
   }
 

@@ -10,6 +10,7 @@ import {POST_NOT_FOUND_ERROR} from './blog-post.const';
 import {BlogPostRepository} from './blog-post.repository';
 import {PostInterface, PostStatusEnum} from '@project/shared/app-types';
 import {PostQuery} from './query/post.query';
+import {CreatePostDto} from './dto/create-post.dto';
 
 
 @Injectable()
@@ -19,7 +20,7 @@ export class BlogPostService {
   ) {}
 
   public async create(
-    dto: CreatePostTextDto | CreatePostImageDto | CreatePostVideoDto | CreatePostLinkDto | CreatePostQuoteDto
+    dto: CreatePostDto | CreatePostTextDto | CreatePostImageDto | CreatePostVideoDto | CreatePostLinkDto | CreatePostQuoteDto
   ) {
     const blogPost = {
       status: PostStatusEnum.Posted,
