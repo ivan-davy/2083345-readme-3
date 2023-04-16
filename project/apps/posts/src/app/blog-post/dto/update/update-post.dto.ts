@@ -1,9 +1,9 @@
 import {ApiProperty} from '@nestjs/swagger';
 import {ArrayMaxSize, IsEnum, IsOptional, Matches, MaxLength, MinLength} from 'class-validator';
 import {PostStatusEnum, PostTypeEnum} from '@project/shared/app-types';
-import {POST_BAD_TAGS} from '../blog-post.const';
+import {POST_BAD_TAGS} from '../../blog-post.const';
 
-export class CreatePostDto {
+export class UpdatePostDto {
   @ApiProperty({
     description: 'Status (draft/posted)',
     example: 'draft'
@@ -17,7 +17,8 @@ export class CreatePostDto {
     example: 'video'
   })
   @IsEnum(PostTypeEnum)
-  public type: string;
+  @IsOptional()
+  public type?: string;
 
   @ApiProperty({
     description: 'Optional post tags',
