@@ -29,7 +29,6 @@ export class AuthenticationController {
   @Post('register')
   public async create(@Body() dto: CreateUserDto) {
     const newUser = await this.authService.register(dto);
-    console.log(newUser);
     return fillObject(UserRdo, newUser);
   }
 
