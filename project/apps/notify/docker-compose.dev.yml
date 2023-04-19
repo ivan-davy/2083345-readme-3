@@ -5,8 +5,8 @@ services:
     container_name: "readme.notify.fakesmtp"
     hostname: "fakesmtp"
     ports:
-      - "5025:5025"
-      - "1083:5080"
+      - "8025:8025"
+      - "1083:8080"
   readme.notify.rabbitmq:
     image: rabbitmq:3.11-management
     container_name: readme.notify.rabbitmq
@@ -21,33 +21,33 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-  typoteka.notify.mongodb:
+  readme.notify.mongodb:
     image: mongo
-    container_name: typoteka.notify.mongodb
+    container_name: readme.notify.mongodb
     environment:
       MONGO_INITDB_ROOT_USERNAME: admin
       MONGO_INITDB_ROOT_PASSWORD: test
-      MONGO_INITDB_DATABASE: typoteka-notify
+      MONGO_INITDB_DATABASE: readme-notify
     ports:
       - 27020:27017
     volumes:
-      - typoteka.notify.mongodb:/data/db
+      - readme.notify.mongodb:/data/db
     healthcheck:
-      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/typoteka-notify --quiet
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/readme-notify --quiet
       interval: 10s
       timeout: 10s
       retries: 5
 
-  typoteka.notify.mongodb.ui:
+  readme.notify.mongodb.ui:
     image: mongo-express
     restart: always
-    container_name: typoteka.notify.mongodb.ui
+    container_name: readme.notify.mongodb.ui
     ports:
       - 8083:8081
     environment:
       ME_CONFIG_MONGODB_ADMINUSERNAME: admin
       ME_CONFIG_MONGODB_ADMINPASSWORD: test
-      ME_CONFIG_MONGODB_URL: mongodb://admin:test@typoteka.notify.mongodb:27017/
+      ME_CONFIG_MONGODB_URL: mongodb://admin:test@readme.notify.mongodb:27017/
 
 volumes:
-  typoteka.notify.mongodb:
+  readme.notify.mongodb:
