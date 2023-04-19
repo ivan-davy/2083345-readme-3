@@ -9,6 +9,7 @@ import {MongooseModule} from '@nestjs/mongoose';
     AuthenticationModule,
     ConfigUsersModule,
     MongooseModule.forRootAsync(getMongooseOptions()),
+
   ],
   controllers: [],
   providers: [],
