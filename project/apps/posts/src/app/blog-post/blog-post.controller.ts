@@ -31,9 +31,8 @@ import {CustomCreatePostValidationPipe} from './validators/custom-create-post-va
 import {CustomUpdatePostValidationPipe} from './validators/custom-update-post-validation.pipe';
 import {UpdatePostDto} from './dto/update/update-post.dto';
 import {LikePostQuery} from './query/like-post.query';
-import {JwtAuthGuard} from '@project/util/util-auth';
-import {CurrentUser} from '../../../../../libs/util/util-auth/src/lib/current-user.decorator';
-import {TokenPayloadInterface, UserInterface} from '@project/shared/app-types';
+import {CurrentUser, JwtAuthGuard} from '@project/util/util-auth';
+import {TokenPayloadInterface} from '@project/shared/app-types';
 import {POST_NOT_CREATOR} from './blog-post.const';
 
 @ApiTags('posts')
