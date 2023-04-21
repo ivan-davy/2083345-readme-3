@@ -1,10 +1,10 @@
 import {Injectable, NotFoundException} from '@nestjs/common';
 import {TypeEntityAdapterObject} from './utils/type-entity-adapter.object';
 import dayjs from 'dayjs';
-import {POST_NOT_FOUND_ERROR} from './blog-post.const';
+import {DEFAULT_POST_LIKE_ACTION, POST_NOT_FOUND_ERROR} from './blog-post.const';
 import {BlogPostRepository} from './blog-post.repository';
 import {PostInterface, PostStatusEnum} from '@project/shared/app-types';
-import {PostQuery} from './query/post.query';
+import {GetPostsQuery} from './query/get-posts.query';
 import {CreatePostDto} from './dto/create/create-post.dto';
 import {UpdatePostDto} from './dto/update/update-post.dto';
 
@@ -58,7 +58,7 @@ export class BlogPostService {
     return post;
   }
 
-  async get(query: PostQuery): Promise<PostInterface[]> {
+  async get(query: GetPostsQuery): Promise<PostInterface[]> {
     return this.blogPostRepository.find(query);
   }
 
@@ -67,6 +67,14 @@ export class BlogPostService {
   ) {
     return this.blogPostRepository
       .destroy(postId);
+  }
+
+  public async like(
+    postId: number,
+    action: number = DEFAULT_POST_LIKE_ACTION
+  ) {
+    return this.blogPostRepository
+      .like(postId, action);
   }
 
 }

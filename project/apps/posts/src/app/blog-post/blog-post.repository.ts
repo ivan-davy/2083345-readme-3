@@ -4,7 +4,7 @@ import {Injectable} from '@nestjs/common';
 import {CrudRepositoryInterface} from '@project/util/util-types';
 import {PrismaService} from '../prisma/prisma.service';
 import {prismaPostToPost} from './utils/prisma-post-to-post';
-import {PostQuery} from './query/post.query';
+import {GetPostsQuery} from './query/get-posts.query';
 
 @Injectable()
 export class BlogPostRepository implements CrudRepositoryInterface<BlogPostEntity, number, PostInterface> {
@@ -40,7 +40,7 @@ export class BlogPostRepository implements CrudRepositoryInterface<BlogPostEntit
     return prismaPostToPost(post);
   }
 
-  public async find({limit, tag, type, sortBy, sortDirection, page}: PostQuery): Promise<PostInterface[]> {
+  public async find({limit, tag, type, sortBy, sortDirection, page}: GetPostsQuery): Promise<PostInterface[]> {
     const queryObject = {
       where: {
         AND: {
@@ -81,6 +81,16 @@ export class BlogPostRepository implements CrudRepositoryInterface<BlogPostEntit
         postId
       },
       data: { ...data}
+    });
+    return prismaPostToPost(post);
+  }
+
+  public async like(postId: number, action: number): Promise<PostInterface> {
+    const post = await this.prisma.post.update({
+      where: {
+        postId
+      },
+      data: { }
     });
     return prismaPostToPost(post);
   }

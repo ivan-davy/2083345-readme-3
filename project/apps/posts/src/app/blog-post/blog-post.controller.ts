@@ -14,10 +14,11 @@ import {CreatePostImageDto} from './dto/create/create-post-image.dto';
 import {CreatePostVideoDto} from './dto/create/create-post-video.dto';
 import {CreatePostLinkDto} from './dto/create/create-post-link.dto';
 import {CreatePostQuoteDto} from './dto/create/create-post-quote.dto';
-import {PostQuery} from './query/post.query';
+import {GetPostsQuery} from './query/get-posts.query';
 import {CustomCreatePostValidationPipe} from './validators/custom-create-post-validation.pipe';
 import {CustomUpdatePostValidationPipe} from './validators/custom-update-post-validation.pipe';
 import {UpdatePostDto} from './dto/update/update-post.dto';
+import {LikePostQuery} from './query/like-post.query';
 
 @ApiTags('posts')
 @ApiExtraModels(
@@ -64,7 +65,7 @@ export class BlogPostController {
     description: 'Posts data provided.'
   })
   @Get('/')
-  async show(@Query() query: PostQuery) {
+  async show(@Query() query: GetPostsQuery) {
     const posts = await this.postService.get(query);
     return posts.map((post) => fillRdoForPost(post));
   }
@@ -111,5 +112,18 @@ export class BlogPostController {
   @Delete(':id')
   public async delete(@Param('id') id: number) {
     return await this.postService.remove(id);
+  }
+
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Post successfully liked/disliked.',
+  })
+  @ApiResponse({
+    status: HttpStatus.INTERNAL_SERVER_ERROR,
+    description: 'Post could not be liked/disliked.'
+  })
+  @Delete(':id')
+  public async like(@Query() query: LikePostQuery, @Param('id') id: number) {
+    return await this.postService.like(id, query.action);
   }
 }
