@@ -33,6 +33,4 @@ GET http://localhost:3000/api/auth/6442815b2ef0e2b10f8b775f HTTP/1.1
 Authorization: Bearer {{jwt_token}}
 
 
-###
-
 
