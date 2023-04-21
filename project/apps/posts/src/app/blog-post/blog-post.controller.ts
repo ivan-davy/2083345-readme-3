@@ -1,4 +1,16 @@
-import {Body, Controller, Delete, Get, HttpStatus, Param, Patch, Post, Query, UseGuards} from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpStatus,
+  Param,
+  Patch,
+  Post,
+  Query,
+  UnauthorizedException,
+  UseGuards
+} from '@nestjs/common';
 import {CreatePostTextDto} from './dto/create/create-post-text.dto';
 import {ApiExtraModels, ApiResponse, ApiTags} from '@nestjs/swagger';
 import {BlogPostService} from './blog-post.service';
@@ -20,6 +32,9 @@ import {CustomUpdatePostValidationPipe} from './validators/custom-update-post-va
 import {UpdatePostDto} from './dto/update/update-post.dto';
 import {LikePostQuery} from './query/like-post.query';
 import {JwtAuthGuard} from '@project/util/util-auth';
+import {CurrentUser} from '../../../../../libs/util/util-auth/src/lib/current-user.decorator';
+import {TokenPayloadInterface, UserInterface} from '@project/shared/app-types';
+import {POST_NOT_CREATOR} from './blog-post.const';
 
 @ApiTags('posts')
 @ApiExtraModels(
@@ -53,10 +68,11 @@ export class BlogPostController {
   @UseGuards(JwtAuthGuard)
   @Post('new')
   public async create(
+    @CurrentUser() currentUser: TokenPayloadInterface,
     @Body(CustomCreatePostValidationPipe)
       dto: CreatePostDto,
   ) {
-    const newPost = await this.postService.create(dto);
+    const newPost = await this.postService.create(dto, currentUser);
     return fillRdoForPost(newPost);
   }
 
@@ -95,11 +111,17 @@ export class BlogPostController {
   @UseGuards(JwtAuthGuard)
   @Patch(':id')
   public async update(
+    @CurrentUser() currentUser: TokenPayloadInterface,
     @Param('id')
       id: number,
     @Body(CustomUpdatePostValidationPipe)
       dto: UpdatePostDto
   ) {
+    const authorId = (await this.postService.getById(id))._authorId
+    if (authorId !== currentUser.sub) {
+      throw new UnauthorizedException(POST_NOT_CREATOR);
+    }
+
     const updatedPost = await this.postService.update(id, dto);
     return fillRdoForPost(updatedPost);
   }
@@ -114,7 +136,14 @@ export class BlogPostController {
   })
   @UseGuards(JwtAuthGuard)
   @Delete(':id')
-  public async delete(@Param('id') id: number) {
+  public async delete(
+    @CurrentUser() currentUser: TokenPayloadInterface,
+    @Param('id') id: number
+  ) {
+    const authorId = (await this.postService.getById(id))._authorId
+    if (authorId !== currentUser.sub) {
+      throw new UnauthorizedException(POST_NOT_CREATOR);
+    }
     return await this.postService.remove(id);
   }
 
@@ -128,7 +157,10 @@ export class BlogPostController {
   })
   @UseGuards(JwtAuthGuard)
   @Post(':id/like')
-  public async like(@Query() query: LikePostQuery, @Param('id') id: number) {
+  public async like(
+    @Query() query: LikePostQuery,
+    @Param('id') id: number
+  ) {
     return await this.postService.like(id, query.action);
   }
 }
