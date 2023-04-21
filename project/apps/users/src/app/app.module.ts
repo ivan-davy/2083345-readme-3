@@ -6,7 +6,8 @@ import {MongooseModule} from '@nestjs/mongoose';
 import {NotifyModule} from './notify/notify.module';
 
 @Module({
-  imports: [BlogUserModule,
+  imports: [
+    BlogUserModule,
     AuthenticationModule,
     ConfigUsersModule,
     MongooseModule.forRootAsync(getMongooseOptions()),
