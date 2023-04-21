@@ -122,7 +122,7 @@ export class BlogPostController {
     status: HttpStatus.INTERNAL_SERVER_ERROR,
     description: 'Post could not be liked/disliked.'
   })
-  @Delete(':id')
+  @Post(':id/like')
   public async like(@Query() query: LikePostQuery, @Param('id') id: number) {
     return await this.postService.like(id, query.action);
   }
