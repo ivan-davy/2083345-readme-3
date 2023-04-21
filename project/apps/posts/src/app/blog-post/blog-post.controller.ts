@@ -92,6 +92,7 @@ export class BlogPostController {
     status: HttpStatus.CREATED,
     description: 'Post successfully updated.',
   })
+  @UseGuards(JwtAuthGuard)
   @Patch(':id')
   public async update(
     @Param('id')
@@ -111,6 +112,7 @@ export class BlogPostController {
     status: HttpStatus.INTERNAL_SERVER_ERROR,
     description: 'Post could not be deleted.'
   })
+  @UseGuards(JwtAuthGuard)
   @Delete(':id')
   public async delete(@Param('id') id: number) {
     return await this.postService.remove(id);
@@ -124,6 +126,7 @@ export class BlogPostController {
     status: HttpStatus.INTERNAL_SERVER_ERROR,
     description: 'Post could not be liked/disliked.'
   })
+  @UseGuards(JwtAuthGuard)
   @Post(':id/like')
   public async like(@Query() query: LikePostQuery, @Param('id') id: number) {
     return await this.postService.like(id, query.action);
