@@ -16,6 +16,7 @@ DELETE http://localhost:3333/api/post/89 HTTP/1.1
 # Create a new text post
 POST http://localhost:3333/api/post/new HTTP/1.1
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NDQyODE1YjJlZjBlMmIxMGY4Yjc3NWYiLCJlbWFpbCI6Imtla3Npc3NpbW9AbWFpbC5jb20iLCJuYW1lIjoiS2VrcyIsImlhdCI6MTY4MjA4ODUxNywiZXhwIjoxNjgyMDkyMTE3fQ.BystDCM5svtl-koLXjC82OjKqEVB5-dDOXAK7iM7zz4
 
 {
   "type": "text",

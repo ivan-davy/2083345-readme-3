@@ -29,7 +29,7 @@ Content-Type: application/json
 ### getUser
 # Get user by ID
 
-GET http://localhost:3000/api/auth/643b0353a7a73633372a89c6 HTTP/1.1
+GET http://localhost:3000/api/auth/6442815b2ef0e2b10f8b775f HTTP/1.1
 Authorization: Bearer {{jwt_token}}
 
 

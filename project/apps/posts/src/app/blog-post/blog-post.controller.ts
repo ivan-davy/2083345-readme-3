@@ -1,4 +1,4 @@
-import {Body, Controller, Delete, Get, HttpStatus, Param, Patch, Post, Query} from '@nestjs/common';
+import {Body, Controller, Delete, Get, HttpStatus, Param, Patch, Post, Query, UseGuards} from '@nestjs/common';
 import {CreatePostTextDto} from './dto/create/create-post-text.dto';
 import {ApiExtraModels, ApiResponse, ApiTags} from '@nestjs/swagger';
 import {BlogPostService} from './blog-post.service';
@@ -19,6 +19,7 @@ import {CustomCreatePostValidationPipe} from './validators/custom-create-post-va
 import {CustomUpdatePostValidationPipe} from './validators/custom-update-post-validation.pipe';
 import {UpdatePostDto} from './dto/update/update-post.dto';
 import {LikePostQuery} from './query/like-post.query';
+import {JwtAuthGuard} from '@project/util/util-auth';
 
 @ApiTags('posts')
 @ApiExtraModels(
@@ -49,6 +50,7 @@ export class BlogPostController {
     status: HttpStatus.CREATED,
     description: 'Post successfully created.',
   })
+  @UseGuards(JwtAuthGuard)
   @Post('new')
   public async create(
     @Body(CustomCreatePostValidationPipe)

@@ -7,7 +7,7 @@ import {LoginUserDto} from './dto/login-user.dto';
 import {LoggedUserRdo} from './rdo/logged-user.rdo';
 import {ApiResponse, ApiTags} from '@nestjs/swagger';
 import {MongoidValidationPipe} from '@project/shared/shared-pipes';
-import {JwtAuthGuard} from './strategies/jwt-auth.guard';
+import {JwtAuthGuard} from '@project/util/util-auth';
 import {NotifyService} from '../notify/notify.service';
 
 @ApiTags('authentication')
