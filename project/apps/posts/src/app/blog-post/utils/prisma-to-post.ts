@@ -1,7 +1,7 @@
 import {PostInterface, PostStatusEnum, PostTypeEnum} from '@project/shared/app-types';
-import {Post} from '@prisma/client';
+import {Like, Post} from '@prisma/client';
 
-export function prismaPostToPost(prismaPost: Post | null): PostInterface {
+export function prismaToPost(prismaPost: Post | null, prismaLikes: Like): PostInterface {
   if (prismaPost) {
     const post = {
       ...prismaPost,
@@ -9,6 +9,7 @@ export function prismaPostToPost(prismaPost: Post | null): PostInterface {
       creationDate: prismaPost.creationDate.toISOString(),
       type: prismaPost.type as PostTypeEnum,
       status: prismaPost.status as PostStatusEnum,
+      likesQty: prismaLikes.likedByUsersIds.length,
       _id: prismaPost.postId,
       _origAuthorId: prismaPost.origAuthorId,
       _authorId: prismaPost.authorId,
@@ -16,6 +17,7 @@ export function prismaPostToPost(prismaPost: Post | null): PostInterface {
     delete post.postId;
     delete post.authorId;
     delete post.origAuthorId;
+
     return post;
   }
   return null;

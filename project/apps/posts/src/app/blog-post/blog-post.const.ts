@@ -6,8 +6,3 @@ export const POST_BAD_TAGS = 'Tags are invalid.'
 export const COMMENT_NOT_CREATOR = 'You are not the creator of this comment.'
 
 
-export const DEFAULT_POST_COUNT_LIMIT = 25;
-export const DEFAULT_SORT_BY = 'creationDate';
-export const DEFAULT_SORT_DIRECTION = 'desc';
-
-export const DEFAULT_POST_LIKE_ACTION = 1

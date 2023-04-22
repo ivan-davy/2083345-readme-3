@@ -157,9 +157,10 @@ export class BlogPostController {
   @UseGuards(JwtAuthGuard)
   @Post(':id/like')
   public async like(
+    @CurrentUser() currentUser: TokenPayloadInterface,
     @Query() query: LikePostQuery,
     @Param('id') id: number
   ) {
-    return await this.postService.like(id, query.action);
+    return await this.postService.like(id, currentUser.sub, query);
   }
 }

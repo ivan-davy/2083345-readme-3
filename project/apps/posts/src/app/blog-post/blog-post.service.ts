@@ -1,12 +1,13 @@
 import {Injectable, NotFoundException} from '@nestjs/common';
 import {TypeEntityAdapterObject} from './utils/type-entity-adapter.object';
 import dayjs from 'dayjs';
-import {DEFAULT_POST_LIKE_ACTION, POST_NOT_FOUND_ERROR} from './blog-post.const';
+import {POST_NOT_FOUND_ERROR} from './blog-post.const';
 import {BlogPostRepository} from './blog-post.repository';
 import {PostInterface, PostStatusEnum, TokenPayloadInterface} from '@project/shared/app-types';
 import {GetPostsQuery} from './query/get-posts.query';
 import {CreatePostDto} from './dto/create/create-post.dto';
 import {UpdatePostDto} from './dto/update/update-post.dto';
+import {LikePostQuery} from './query/like-post.query';
 
 
 @Injectable()
@@ -72,10 +73,11 @@ export class BlogPostService {
 
   public async like(
     postId: number,
-    action: number = DEFAULT_POST_LIKE_ACTION
+    userId: string,
+    query: LikePostQuery
   ) {
     return this.blogPostRepository
-      .like(postId, action);
+      .like(postId, userId, query.action);
   }
 
 }
