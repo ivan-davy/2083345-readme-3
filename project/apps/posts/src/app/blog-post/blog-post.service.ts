@@ -8,12 +8,15 @@ import {GetPostsQuery} from './query/get-posts.query';
 import {CreatePostDto} from './dto/create/create-post.dto';
 import {UpdatePostDto} from './dto/update/update-post.dto';
 import {LikePostQuery} from './query/like-post.query';
+import {CommentQuery} from '../blog-comment/query/comment.query';
+import {BlogCommentRepository} from '../blog-comment/blog-comment.repository';
 
 
 @Injectable()
 export class BlogPostService {
   constructor(
-    private readonly blogPostRepository: BlogPostRepository
+    private readonly blogPostRepository: BlogPostRepository,
+    private readonly blogCommentRepository: BlogCommentRepository,
   ) {}
 
   public async create(
@@ -47,21 +50,26 @@ export class BlogPostService {
     const updatedPost = {...blogPost, ...dto}
 
     const postEntity = await new TypeEntityAdapterObject[updatedPost.type](updatedPost);
-
-    return this.blogPostRepository
-      .update(postId, postEntity);
+    const comments = await this.blogCommentRepository.findByPostId(postId, new CommentQuery())
+    return {...await this.blogPostRepository.update(postId, postEntity), commentsQty: comments.length};
   }
 
-  public async getById(id: number) {
-    const post = await this.blogPostRepository.findById(id);
+  public async getById(postId: number) {
+    const post = await this.blogPostRepository.findById(postId);
     if (!post) {
       throw new NotFoundException(POST_NOT_FOUND_ERROR);
     }
-    return post;
+
+    const comments = await this.blogCommentRepository.findByPostId(postId, new CommentQuery())
+    return {...post, commentsQty: comments.length};
   }
 
   async get(query: GetPostsQuery): Promise<PostInterface[]> {
-    return this.blogPostRepository.find(query);
+    const posts = await this.blogPostRepository.find(query);
+    return Promise.all(posts.map(async (post) => {
+      const comments = await this.blogCommentRepository.findByPostId(post._id, new CommentQuery())
+      return {...post, commentsQty: comments.length}
+    }))
   }
 
   public async remove(

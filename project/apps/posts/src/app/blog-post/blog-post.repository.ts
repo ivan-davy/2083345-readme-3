@@ -21,9 +21,9 @@ export class BlogPostRepository implements CrudRepositoryInterface<BlogPostEntit
     delete data._authorId;
     delete data._origAuthorId;
 
-    const post = await this.prisma.post.create({ data });
-    const postLikes = await this.prisma.like.create({ data: {postId: post.postId, likedByUsersIds: []} })
-    return prismaToPost(post, postLikes);
+    const prismaPost = await this.prisma.post.create({ data });
+    const prismaLike = await this.prisma.like.create({ data: {postId: prismaPost.postId, likedByUsersIds: []} })
+    return prismaToPost(prismaPost, prismaLike);
   }
 
   public async destroy(postId: number): Promise<void> {
@@ -40,8 +40,8 @@ export class BlogPostRepository implements CrudRepositoryInterface<BlogPostEntit
         postId
       }
     });
-    const postLikes = await this.getLikesForPost(postId);
-    return prismaToPost(post, postLikes);
+    const prismaLike = await this.getLikesForPost(postId);
+    return prismaToPost(post, prismaLike);
   }
 
   public async find({limit, tag, type, sortBy, sortDirection, page}: GetPostsQuery): Promise<PostInterface[]> {
@@ -68,8 +68,8 @@ export class BlogPostRepository implements CrudRepositoryInterface<BlogPostEntit
 
     const posts = await this.prisma.post.findMany(queryObject);
     return await Promise.all(posts.map(async (post) => {
-      const postLikes = await this.getLikesForPost(post.postId);
-      return prismaToPost(post, postLikes)
+      const prismaLike = await this.getLikesForPost(post.postId);
+      return prismaToPost(post, prismaLike)
     }))
   }
 
@@ -89,8 +89,8 @@ export class BlogPostRepository implements CrudRepositoryInterface<BlogPostEntit
       },
       data: { ...data}
     });
-    const postLikes = await this.getLikesForPost(postId);
-    return prismaToPost(post, postLikes);
+    const prismaLike = await this.getLikesForPost(postId);
+    return prismaToPost(post, prismaLike);
   }
 
   public async getLikesForPost(postId: number): Promise<Like> {

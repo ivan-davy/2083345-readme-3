@@ -18,7 +18,6 @@ model Post {
   creationDate DateTime   @default(now()) @map("creation_date")
   postedDate   DateTime   @updatedAt @map("posted_date")
   comments     Comment[]
-  commentsQty  Int        @default(0) @map("comments_qty")
   type         PostType
   status       PostStatus @default(posted)
   isReposted   Boolean    @default(false) @map("is_reposted")

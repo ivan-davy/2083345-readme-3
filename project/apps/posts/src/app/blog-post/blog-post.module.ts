@@ -6,6 +6,7 @@ import {JwtAccessStrategy} from '@project/util/util-auth';
 import {JwtModule} from '@nestjs/jwt';
 import {ConfigService} from '@nestjs/config';
 import {getJwtOptions} from '@project/config/config-users';
+import {BlogCommentRepository} from '../blog-comment/blog-comment.repository';
 
 @Module({
   imports: [
@@ -14,7 +15,7 @@ import {getJwtOptions} from '@project/config/config-users';
       useFactory: getJwtOptions
     }),
   ],
-  providers: [BlogPostService, BlogPostRepository, JwtAccessStrategy],
+  providers: [BlogPostService, BlogPostRepository, BlogCommentRepository, JwtAccessStrategy],
   controllers: [BlogPostController],
   exports: [BlogPostService]
 })

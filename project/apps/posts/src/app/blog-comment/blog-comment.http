@@ -1,6 +1,6 @@
 ### getCommentsByPostId
 # Get comments by post ID
-GET http://localhost:3333/api/comment/post/100 HTTP/1.1
+GET http://localhost:3333/api/comment/post/10 HTTP/1.1
 
 ### createComment
 # Create a new comment for post
@@ -9,12 +9,12 @@ Content-Type: application/json
 Authorization: Bearer {{jwt_token}}
 
 {
-  "postId": 100,
-  "text": "GGGGGGGGGGGGGGGGGGGg"
+  "postId": 10,
+  "text": "HOLYYYMOLYYY"
 }
 
 ### deleteComment
 # Delete a single comment
-DELETE http://localhost:3333/api/comment/10 HTTP/1.1
+DELETE http://localhost:3333/api/comment/3 HTTP/1.1
 Authorization: Bearer {{jwt_token}}
 

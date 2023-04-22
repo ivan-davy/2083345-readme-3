@@ -1,6 +1,6 @@
 ### getPost
 # Get post by ID
-GET http://localhost:3333/api/post/99 HTTP/1.1
+GET http://localhost:3333/api/post/10 HTTP/1.1
 
 ### getPosts
 # Get all posts
