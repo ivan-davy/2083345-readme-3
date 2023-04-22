@@ -26,6 +26,7 @@ export class BlogPostService {
     const blogPost = {
       status: PostStatusEnum.Posted,
       ...dto,
+      tags: [...new Set(dto.tags.map((tag) => tag.toLowerCase()))],
       _authorId: user.sub,
       _origAuthorId: user.sub,
       creationDate: dayjs().toISOString(),
