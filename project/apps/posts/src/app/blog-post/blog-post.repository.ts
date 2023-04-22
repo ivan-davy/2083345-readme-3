@@ -121,4 +121,8 @@ export class BlogPostRepository implements CrudRepositoryInterface<BlogPostEntit
     });
     return { postId, likedBy: likesForPost };
   }
+
+  public async clearPostEmailNotifyList() {
+    return this.prisma.emailNotify.deleteMany({})
+  }
 }

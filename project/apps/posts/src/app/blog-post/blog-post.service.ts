@@ -88,5 +88,9 @@ export class BlogPostService {
       .like(postId, userId, query.action);
   }
 
+  public async clearPostEmailNotifyList() {
+    return this.blogPostRepository.clearPostEmailNotifyList();
+  }
+
 }
 
