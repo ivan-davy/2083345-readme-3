@@ -1,5 +1,5 @@
 import {BlogPostEntity} from './blog-post.entity';
-import {PostInterface, PostStatusEnum, PostTypeEnum} from '@project/shared/app-types';
+import {LikeInterface, PostInterface, PostStatusEnum, PostTypeEnum} from '@project/shared/app-types';
 import {Injectable} from '@nestjs/common';
 import {CrudRepositoryInterface} from '@project/util/util-types';
 import {PrismaService} from '../prisma/prisma.service';
@@ -19,8 +19,11 @@ export class BlogPostRepository implements CrudRepositoryInterface<BlogPostEntit
     delete data._authorId;
     delete data._origAuthorId;
 
-    const post = await this.prisma.post.create({data});
-    return prismaPostToPost(post);
+    const post = await this.prisma.post.create({ data });
+    const postLikes = await this.prisma.like.create({postId: data._id, likedByUsersIds: []})
+    console.log(post)
+    console.log(postLikes)
+    return {...prismaPostToPost(post)};
   }
 
   public async destroy(postId: number): Promise<void> {
@@ -85,13 +88,14 @@ export class BlogPostRepository implements CrudRepositoryInterface<BlogPostEntit
     return prismaPostToPost(post);
   }
 
-  public async like(postId: number, action: number): Promise<PostInterface> {
-    const post = await this.prisma.post.update({
+  public async like(postId: number, action: number): Promise<LikeInterface> {
+    console.log('works!')
+    /*const post = await this.prisma.({
       where: {
         postId
       },
       data: { }
-    });
-    return prismaPostToPost(post);
+    });*/
+    return {postId, likedBy: ['']};
   }
 }

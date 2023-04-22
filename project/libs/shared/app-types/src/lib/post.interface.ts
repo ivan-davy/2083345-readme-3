@@ -7,7 +7,8 @@ export interface PostInterface {
   _origAuthorId?: string;
   creationDate: string;
   postedDate: string;
-  likesQty: number;
+  likedByIds?: string[];
+  likesQty?: number;
   commentsQty: number;
   type: PostTypeEnum;
   status: PostStatusEnum;

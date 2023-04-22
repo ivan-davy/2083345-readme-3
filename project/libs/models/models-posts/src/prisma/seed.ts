@@ -6,7 +6,7 @@ async function fillDb() {
     where: { postId: 1 },
     update: {},
     create: {
-      likesQty: 5,
+      likedByIds: [] as string[],
       type: 'text',
       status: 'posted',
       tags: ['wow'],
@@ -21,6 +21,7 @@ async function fillDb() {
           },
         ]
       },
+      commentsQty: 1,
     }
   });
   console.info('Database was filled')

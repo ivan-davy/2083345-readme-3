@@ -11,7 +11,7 @@ export function prismaPostToPost(prismaPost: Post | null): PostInterface {
       status: prismaPost.status as PostStatusEnum,
       _id: prismaPost.postId,
       _origAuthorId: prismaPost.origAuthorId,
-      _authorId: prismaPost.authorId
+      _authorId: prismaPost.authorId,
     };
     delete post.postId;
     delete post.authorId;

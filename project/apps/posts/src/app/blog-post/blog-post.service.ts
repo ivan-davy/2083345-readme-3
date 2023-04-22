@@ -26,7 +26,7 @@ export class BlogPostService {
       _origAuthorId: user.sub,
       creationDate: dayjs().toISOString(),
       postDate: dayjs().toISOString(),
-      likesQty: 0,
+      likedByIds: [] as string[],
       commentsQty: 0,
       isReposted: false
     };

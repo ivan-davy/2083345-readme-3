@@ -1,10 +1,8 @@
 ### getCommentsByPostId
-
 # Get comments by post ID
 GET http://localhost:3333/api/comment/post/100 HTTP/1.1
 
 ### createComment
-
 # Create a new comment for post
 POST http://localhost:3333/api/comment/new HTTP/1.1
 Content-Type: application/json
@@ -16,9 +14,7 @@ Authorization: Bearer {{jwt_token}}
 }
 
 ### deleteComment
-
 # Delete a single comment
 DELETE http://localhost:3333/api/comment/10 HTTP/1.1
 Authorization: Bearer {{jwt_token}}
 
-###
