@@ -55,6 +55,12 @@ model Like {
   @@map("likes")
 }
 
+model EmailNotify {
+  postId Int @id @unique @map("post_id")
+
+  @@map("email_notifications")
+}
+
 enum PostStatus {
   posted
   draft

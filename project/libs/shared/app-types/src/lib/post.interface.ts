@@ -9,7 +9,7 @@ export interface PostInterface {
   postedDate: string;
   likedByIds?: string[];
   likesQty?: number;
-  commentsQty: number;
+  commentsQty?: number;
   type: PostTypeEnum;
   status: PostStatusEnum;
   isReposted: boolean;

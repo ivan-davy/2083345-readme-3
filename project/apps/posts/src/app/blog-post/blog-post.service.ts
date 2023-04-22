@@ -32,7 +32,6 @@ export class BlogPostService {
       creationDate: dayjs().toISOString(),
       postDate: dayjs().toISOString(),
       likedByIds: [] as string[],
-      commentsQty: 0,
       isReposted: false
     };
 

@@ -41,6 +41,7 @@ Authorization: Bearer {{jwt_token}}
 # Create a new image post
 POST http://localhost:3333/api/post/new HTTP/1.1
 Content-Type: application/json
+Authorization: Bearer {{jwt_token}}
 
 {
   "type": "image",
@@ -53,15 +54,16 @@ Content-Type: application/json
 # Create a new video post
 POST http://localhost:3333/api/post/new HTTP/1.1
 Content-Type: application/json
+Authorization: Bearer {{jwt_token}}
 
 {
   "type": "video",
-  "title": "TTTTTTTTTTTTTTTTTTTTTTT",
+  "title": "TTTTTTTTTTTTTTTTTTTTTTTTTTT",
   "videoLink": "https://youtu.be/bbbbbbbbbbb",
   "tags": ["p3ppppp", "gggdj", "pppppp", "gg1j", "apppppp"]
 }
 
 ### likePost
 # Like/dislike a post
-POST http://localhost:3333/api/post/10/like?action=1 HTTP/1.1
+POST http://localhost:3333/api/post/14/like?action=1 HTTP/1.1
 Authorization: Bearer {{jwt_token}}
