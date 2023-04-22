@@ -5,7 +5,6 @@ export class EmailSubscriberEntity implements Entity<EmailSubscriberEntity>, Sub
   public id: string;
   public email: string;
   public name: string;
-  public userId: string;
 
   constructor(emailSubscriber: SubscriberInterface) {
     this.fillEntity(emailSubscriber);

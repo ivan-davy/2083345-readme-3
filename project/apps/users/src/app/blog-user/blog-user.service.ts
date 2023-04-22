@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import {BlogUserRepository} from './blog-user.repository';
 
-
 @Injectable()
 export class BlogUserService {
   constructor(
