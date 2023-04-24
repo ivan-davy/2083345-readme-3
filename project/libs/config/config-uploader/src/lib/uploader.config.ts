@@ -1,8 +1,8 @@
 import { registerAs } from '@nestjs/config';
 import * as Joi from 'joi';
 
-const DEFAULT_PORT = 3000;
-const DEFAULT_MONGO_PORT = 27017;
+const DEFAULT_PORT = 3333;
+const DEFAULT_MONGO_PORT = 27021;
 
 export interface UploaderConfig {
   serveRoot: string;

@@ -8,10 +8,10 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: admin
       MONGO_INITDB_ROOT_PASSWORD: test
-      MONGO_INITDB_DATABASE: readme-uploader
+      MONGO_INITDB_DATABASE: uploader
 
     ports:
-      - 27018:27018
+      - 27021:27021
 
     volumes:
       - readme.mongo.uploader:/data/db
@@ -27,11 +27,11 @@ services:
     restart: always
     container_name: readme.uploader.mongo.ui
     ports:
-      - 8083:8083
+      - 8085:8081
     environment:
       ME_CONFIG_MONGODB_ADMINUSERNAME: admin
       ME_CONFIG_MONGODB_ADMINPASSWORD: test
-      ME_CONFIG_MONGODB_URL: mongodb://admin:test@readme.uploader.mongo:27018/
+      ME_CONFIG_MONGODB_URL: mongodb://admin:test@readme.uploader.mongo:27021/
 
 volumes:
   readme.mongo.uploader:
