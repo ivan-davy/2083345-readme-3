@@ -13,5 +13,5 @@ Content-Type: text/plain
 
 ### getFileById
 # Get file by ID
-GET http://localhost:3333/api/files/6437c9bdaa7ff52ac6fbe090 HTTP/1.1
+GET http://localhost:3333/api/files/64465f2e3b0cea3a56ef5221 HTTP/1.1
 
