@@ -4,6 +4,7 @@ import { Controller } from '@nestjs/common';
 import { RabbitSubscribe } from '@golevelup/nestjs-rabbitmq';
 import { RabbitRouting } from '@project/shared/app-types';
 import { MailService } from '../mail/mail.service';
+import {CreatePostDto} from './dto/create-post.dto';
 
 @Controller()
 export class EmailSubscriberController {
@@ -17,8 +18,18 @@ export class EmailSubscriberController {
     routingKey: RabbitRouting.AddSubscriber,
     queue: 'readme.notify',
   })
-  public async create(subscriber: CreateSubscriberDto) {
-    this.subscriberService.addSubscriber(subscriber);
-    this.mailService.sendNotifyNewSubscriber(subscriber);
+  public async createSubscriber(subscriber: CreateSubscriberDto) {
+    await this.subscriberService.addSubscriber(subscriber);
+    await this.mailService.sendNotifyNewSubscriber(subscriber);
+  }
+
+  @RabbitSubscribe({
+    exchange: 'readme.notify',
+    routingKey: RabbitRouting.InitNewsletter,
+    queue: 'readme.notify',
+  })
+  public async initNewsletter(posts: CreatePostDto[]) {
+    console.log(posts);
+    await this.mailService;
   }
 }

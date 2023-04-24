@@ -34,6 +34,7 @@ import {LikePostQuery} from './query/like-post.query';
 import {CurrentUser, JwtAuthGuard} from '@project/util/util-auth';
 import {TokenPayloadInterface} from '@project/shared/app-types';
 import {POST_NOT_CREATOR} from './blog-post.const';
+import {NotifyService} from '../notify/notify.service';
 
 @ApiTags('posts')
 @ApiExtraModels(
@@ -55,7 +56,8 @@ import {POST_NOT_CREATOR} from './blog-post.const';
 @Controller('post')
 export class BlogPostController {
   constructor(
-    private readonly postService: BlogPostService
+    private readonly postService: BlogPostService,
+    private readonly notifyService: NotifyService,
   ) {
   }
 
@@ -162,5 +164,18 @@ export class BlogPostController {
     @Param('id') id: number
   ) {
     return await this.postService.like(id, currentUser.sub, query);
+  }
+
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Newsletter sent.',
+  })
+  @UseGuards(JwtAuthGuard)
+  @Post('news')
+  public async news() {
+    const newsletterPosts = await this.postService.getPostNewsletterList()
+    await this.notifyService.initPostNewsletter(newsletterPosts);
+    this.postService.clearPostNewsletterList();
+    return newsletterPosts;
   }
 }

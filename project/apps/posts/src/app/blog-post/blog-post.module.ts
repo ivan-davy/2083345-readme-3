@@ -5,8 +5,10 @@ import {BlogPostRepository} from './blog-post.repository';
 import {JwtAccessStrategy} from '@project/util/util-auth';
 import {JwtModule} from '@nestjs/jwt';
 import {ConfigService} from '@nestjs/config';
-import {getJwtOptions} from '@project/config/config-users';
+import {getJwtOptions} from '@project/config/config-posts';
 import {BlogCommentRepository} from '../blog-comment/blog-comment.repository';
+import {NotifyModule} from '../notify/notify.module';
+import {NotifyService} from '../notify/notify.service';
 
 @Module({
   imports: [
@@ -14,8 +16,9 @@ import {BlogCommentRepository} from '../blog-comment/blog-comment.repository';
       inject: [ConfigService],
       useFactory: getJwtOptions
     }),
+    NotifyModule
   ],
-  providers: [BlogPostService, BlogPostRepository, BlogCommentRepository, JwtAccessStrategy],
+  providers: [BlogPostService, BlogPostRepository, BlogCommentRepository, JwtAccessStrategy, NotifyService],
   controllers: [BlogPostController],
   exports: [BlogPostService]
 })

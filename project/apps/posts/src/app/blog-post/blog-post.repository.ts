@@ -122,7 +122,14 @@ export class BlogPostRepository implements CrudRepositoryInterface<BlogPostEntit
     return { postId, likedBy: likesForPost };
   }
 
-  public async clearPostEmailNotifyList() {
+  public async getNewsletterPosts() {
+    const newsletterPostIds = (await this.prisma.emailNotify.findMany({})).map((id) => id.postId);
+    return this.prisma.post.findMany({
+      where: {postId: {in: newsletterPostIds},}
+    });
+  }
+
+  public async clearPostNewsletterList() {
     return this.prisma.emailNotify.deleteMany({})
   }
 }
