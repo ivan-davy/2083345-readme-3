@@ -8,7 +8,6 @@ import {ConfigService} from '@nestjs/config';
 import {getJwtOptions} from '@project/config/config-posts';
 import {BlogCommentRepository} from '../blog-comment/blog-comment.repository';
 import {NotifyModule} from '../notify/notify.module';
-import {NotifyService} from '../notify/notify.service';
 
 @Module({
   imports: [
@@ -18,7 +17,7 @@ import {NotifyService} from '../notify/notify.service';
     }),
     NotifyModule
   ],
-  providers: [BlogPostService, BlogPostRepository, BlogCommentRepository, JwtAccessStrategy, NotifyService],
+  providers: [BlogPostService, BlogPostRepository, BlogCommentRepository, JwtAccessStrategy],
   controllers: [BlogPostController],
   exports: [BlogPostService]
 })
