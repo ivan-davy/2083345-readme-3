@@ -1,6 +1,6 @@
 import {PostInterface, SubscriberInterface} from '@project/shared/app-types';
 import { Injectable } from '@nestjs/common';
-import {EMAIL_ADD_SUBSCRIBER_SUBJECT, NEW_POSTS_NEWSLETTER} from './mail.const';
+import {EMAIL_ADD_SUBSCRIBER_SUBJECT, NEW_POSTS_NEWSLETTER, PLACEHOLDER_EMAIL} from './mail.const';
 import { MailerService } from '@nestjs-modules/mailer';
 
 @Injectable()
@@ -23,10 +23,9 @@ export class MailService {
     recipients: SubscriberInterface[],
     posts: PostInterface[]
   ) {
-    console.log(recipients);
-    console.log(posts);
-    await this.mailerService.sendMail({
-      to: recipients.map((recipient) => recipient.email),
+    const emails = recipients.map((recipient) => recipient.email ??= PLACEHOLDER_EMAIL)
+    return await this.mailerService.sendMail({
+      to: emails,
       subject: NEW_POSTS_NEWSLETTER,
       template: './post-newsletter',
       context: {

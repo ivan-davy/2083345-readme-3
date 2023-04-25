@@ -10,8 +10,3 @@ export interface UserInterface {
   subscribersQty?: number;
 }
 
-export interface BriefUserInterface {
-  _id: string;
-  email: string;
-  name: string;
-}
