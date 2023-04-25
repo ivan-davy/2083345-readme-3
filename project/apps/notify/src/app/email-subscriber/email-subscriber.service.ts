@@ -20,4 +20,8 @@ export class EmailSubscriberService {
     return this.emailSubscriberRepository
       .create(new EmailSubscriberEntity(subscriber));
   }
+
+  public async getSubscribers() {
+    return this.emailSubscriberRepository.findAll();
+  }
 }

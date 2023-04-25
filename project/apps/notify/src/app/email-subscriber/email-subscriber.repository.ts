@@ -28,6 +28,12 @@ export class EmailSubscriberRepository implements CrudRepositoryInterface<EmailS
       .exec();
   }
 
+  public async findAll(): Promise<SubscriberInterface[] | null> {
+    return this.emailSubscriberModel
+      .find()
+      .exec()
+  }
+
   public async update(id: string, item: EmailSubscriberEntity): Promise<SubscriberInterface> {
     return this.emailSubscriberModel
       .findByIdAndUpdate(id, item.toObject(), { new: true })

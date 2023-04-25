@@ -174,8 +174,7 @@ export class BlogPostController {
   @Post('news')
   public async news() {
     const newsletterPosts = await this.postService.getPostNewsletterList()
-    await this.notifyService.initPostNewsletter(newsletterPosts);
+    this.notifyService.initPostNewsletter(newsletterPosts);
     this.postService.clearPostNewsletterList();
-    return newsletterPosts;
   }
 }

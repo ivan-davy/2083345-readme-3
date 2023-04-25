@@ -14,10 +14,10 @@ export class NotifyService {
   ) {}
 
   public async initPostNewsletter(posts: Post[]) {
-    return this.rabbitClient.publish(
+    await this.rabbitClient.publish(
       this.rabbitOptions.exchange,
       RabbitRouting.InitNewsletter,
-      {...posts}
+      [...posts]
     );
   }
 }

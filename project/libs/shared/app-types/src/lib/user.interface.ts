@@ -9,3 +9,9 @@ export interface UserInterface {
   postsQty?: number;
   subscribersQty?: number;
 }
+
+export interface BriefUserInterface {
+  _id: string;
+  email: string;
+  name: string;
+}
