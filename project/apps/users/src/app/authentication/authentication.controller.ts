@@ -1,14 +1,16 @@
-import {Body, Controller, Get, HttpCode, HttpStatus, Param, Post, UseGuards} from '@nestjs/common';
+import {Body, Controller, Get, HttpCode, HttpStatus, Param, Post, Req, UseGuards} from '@nestjs/common';
 import {AuthenticationService} from './authentication.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import {UserRdo} from './rdo/user.rdo';
 import {fillObject} from '@project/util/util-core';
-import {LoginUserDto} from './dto/login-user.dto';
 import {LoggedUserRdo} from './rdo/logged-user.rdo';
 import {ApiResponse, ApiTags} from '@nestjs/swagger';
 import {MongoidValidationPipe} from '@project/shared/shared-pipes';
 import {JwtAuthGuard} from '@project/util/util-auth';
 import {NotifyService} from '../notify/notify.service';
+import {LocalAuthGuard} from './guards/local-auth.guard';
+import {RequestWithUserInterface} from '@project/shared/app-types';
+import {JwtRefreshGuard} from './guards/jst-refresh.guard';
 
 @ApiTags('authentication')
 @Controller('auth')
@@ -45,12 +47,23 @@ export class AuthenticationController {
     status: HttpStatus.UNAUTHORIZED,
     description: 'Login failed.',
   })
+  @UseGuards(LocalAuthGuard)
   @HttpCode(200)
   @Post('login')
-  public async login(@Body() dto: LoginUserDto) {
-    const verifiedUser = await this.authService.verifyUser(dto);
-    const loggedUser = await this.authService.createUserToken(verifiedUser);
-    return fillObject(LoggedUserRdo, Object.assign(verifiedUser, loggedUser));
+  public async login(@Req() { user }: RequestWithUserInterface) {
+    return this.authService.createUserToken(user);
+  }
+
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Get new access/refresh tokens'
+  })
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(JwtRefreshGuard)
+  @Post('refresh')
+  public async refreshToken(@Req() { user }: RequestWithUserInterface) {
+    console.log(user);
+    return this.authService.createUserToken(user);
   }
 
   @ApiResponse({
