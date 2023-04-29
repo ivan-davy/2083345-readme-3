@@ -63,9 +63,14 @@ Authorization: Bearer {{jwt_token}}
   "tags": ["p3ppppp", "gggdj", "pppppp", "gg1j", "apppppp"]
 }
 
+### repost
+# Like/dislike a post
+POST http://localhost:3332/api/post/9/repost HTTP/1.1
+Authorization: Bearer {{jwt_token}}
+
 ### likePost
 # Like/dislike a post
-POST http://localhost:3332/api/post/14/like?action=1 HTTP/1.1
+POST http://localhost:3332/api/post/9/like?action=1 HTTP/1.1
 Authorization: Bearer {{jwt_token}}
 
 ### sendNewsletters

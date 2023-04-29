@@ -33,7 +33,7 @@ import {UpdatePostDto} from './dto/update/update-post.dto';
 import {LikePostQuery} from './query/like-post.query';
 import {CurrentUser, JwtAuthGuard} from '@project/util/util-auth';
 import {TokenPayloadInterface} from '@project/shared/app-types';
-import {POST_NOT_CREATOR} from './blog-post.const';
+import {POST_CANT_REPOST, POST_NOT_CREATOR} from './blog-post.const';
 import {NotifyService} from '../notify/notify.service';
 
 @ApiTags('posts')
@@ -164,6 +164,27 @@ export class BlogPostController {
     @Param('id') id: number
   ) {
     return await this.postService.like(id, currentUser.sub, query);
+  }
+
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Post successfully reposted.',
+  })
+  @ApiResponse({
+    status: HttpStatus.BAD_REQUEST,
+    description: 'You cannot repost your own posts.'
+  })
+  @UseGuards(JwtAuthGuard)
+  @Post(':id/repost')
+  public async repost(
+    @CurrentUser() currentUser: TokenPayloadInterface,
+    @Param('id') id: number
+  ) {
+    const origAuthorId = (await this.postService.getById(id))._origAuthorId
+    if (origAuthorId === currentUser.sub) {
+      throw new UnauthorizedException(POST_CANT_REPOST);
+    }
+    return await this.postService.repost(id, currentUser.sub);
   }
 
   @ApiResponse({

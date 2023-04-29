@@ -79,6 +79,14 @@ export class BlogPostService {
       .destroy(postId);
   }
 
+  public async repost(
+    postId: number,
+    userId: string,
+  ) {
+    return this.blogPostRepository
+      .repost(postId, userId);
+  }
+
   public async like(
     postId: number,
     userId: string,

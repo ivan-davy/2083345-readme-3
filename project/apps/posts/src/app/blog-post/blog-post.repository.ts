@@ -103,6 +103,28 @@ export class BlogPostRepository implements CrudRepositoryInterface<BlogPostEntit
       });
   }
 
+  public async repost(postId: number, userId: string): Promise<PostInterface> {
+    const originalPost = await this.findById(postId);
+    const data = {
+      ...originalPost,
+      authorId: userId,
+      isReposted: true,
+      origAuthorId: originalPost._origAuthorId
+    }
+    delete data._id
+    delete data._authorId;
+    delete data._origAuthorId;
+    delete data.likesQty;
+
+    const prismaPost = await this.prisma.post.create({ data });
+    const prismaLike = await this.prisma.like.create({ data: {postId: prismaPost.postId, likedByUsersIds: []} })
+    await this.prisma.emailNotify.create({data: {postId: prismaPost.postId}});
+
+    const repost = prismaToPost(prismaPost, prismaLike);
+    Object.keys(repost).forEach((k) => repost[k] == null && delete repost[k]);
+    return repost
+  }
+
   public async like(postId: number, userId: string, action: LikePostQueryActionEnum): Promise<LikeInterface> {
     let likesForPost: string[] = (await this.getLikesForPost(postId)).likedByUsersIds;
     if (action === LikePostQueryActionEnum.Like && !likesForPost.includes(userId)) {
