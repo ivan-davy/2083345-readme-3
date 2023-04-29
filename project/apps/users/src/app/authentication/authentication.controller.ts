@@ -10,7 +10,7 @@ import {JwtAuthGuard} from '@project/util/util-auth';
 import {NotifyService} from '../notify/notify.service';
 import {LocalAuthGuard} from './guards/local-auth.guard';
 import {RequestWithUserInterface} from '@project/shared/app-types';
-import {JwtRefreshGuard} from './guards/jst-refresh.guard';
+import {JwtRefreshGuard} from './guards/jwt-refresh.guard';
 
 @ApiTags('authentication')
 @Controller('auth')
@@ -62,7 +62,6 @@ export class AuthenticationController {
   @UseGuards(JwtRefreshGuard)
   @Post('refresh')
   public async refreshToken(@Req() { user }: RequestWithUserInterface) {
-    console.log(user);
     return this.authService.createUserToken(user);
   }
 
