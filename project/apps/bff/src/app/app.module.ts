@@ -4,6 +4,7 @@ import { HttpModule } from '@nestjs/axios';
 import { HTTP_CLIENT_MAX_REDIRECTS, HTTP_CLIENT_TIMEOUT } from './app.config';
 import {PostsController} from './posts.controller';
 import {CommentsController} from './comments.controller';
+import {FileController} from './file.controller';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import {CommentsController} from './comments.controller';
     UsersController,
     PostsController,
     CommentsController,
+    FileController
   ],
   providers: [],
 })

@@ -140,3 +140,23 @@ Authorization: Bearer {{jwt_token}}
 # Delete a single comment
 DELETE http://localhost:3500/api/comments/3 HTTP/1.1
 Authorization: Bearer {{jwt_token}}
+
+
+
+### uploadFile
+# Upload some file
+POST http://localhost:3500/api/files/upload HTTP/1.1
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="file"; filename="file.http"
+Content-Type: text/plain
+
+
+< ./app.http
+--boundary--
+
+### getFileById
+# Get file by ID
+GET http://localhost:3500/api/files/64465f2e3b0cea3a56ef5221 HTTP/1.1
+
