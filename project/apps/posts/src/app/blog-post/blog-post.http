@@ -8,7 +8,7 @@ GET http://localhost:3332/api/post HTTP/1.1
 
 ### deletePost
 # Delete post by ID
-DELETE http://localhost:3332/api/post/7 HTTP/1.1
+DELETE http://localhost:3332/api/post/8 HTTP/1.1
 Authorization: Bearer {{jwt_token}}
 
 ### createTextPost
@@ -18,7 +18,7 @@ Content-Type: application/json
 Authorization: Bearer {{jwt_token}}
 
 {
-  "type": "text",
+  "type": "ext",
   "status": "posted",
   "title": "4yuguiyhpuihphpuihphpuhpuihpu",
   "announcement": "yuguiyhpuihphpuihphpuhpuihpuyuguiyhpuihphpuihphpuhpuihpuyuguiyhpuihphpuihphpuhpuihpu",

@@ -29,12 +29,7 @@ export class UsersController {
     @Req() req: Request,
     @Param('id') id: string,
   ) {
-    const { data } = await this.httpService.axiosRef.get(`${ApplicationServiceURL.Auth}/${id}`, {
-      headers: {
-        'Authorization': req.headers['authorization']
-      }
-    });
-
+    const { data } = await this.httpService.axiosRef.get(`${ApplicationServiceURL.Auth}/${id}`);
     return data;
   }
 

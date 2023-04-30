@@ -31,9 +31,88 @@ Content-Type: application/json
 # Get user by ID
 
 GET http://localhost:3500/api/users/6442815b2ef0e2b10f8b775f HTTP/1.1
-Authorization: Bearer {{jwt_token}}
 
 ### refresh
 # Get new JWT pair
 POST http://localhost:3500/api/users/refresh HTTP/1.1
 Authorization: Bearer {{refresh_jwt_token}}
+
+### getPost
+# Get post by ID
+GET http://localhost:3500/api/posts/10 HTTP/1.1
+
+### getPosts
+# Get all posts
+GET http://localhost:3500/api/posts?limit=5 HTTP/1.1
+
+### deletePost
+# Delete post by ID
+DELETE http://localhost:3500/api/posts/8 HTTP/1.1
+Authorization: Bearer {{jwt_token}}
+
+### createTextPost
+# Create a new text post
+POST http://localhost:3500/api/posts/new HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{jwt_token}}
+
+{
+  "type": "text",
+  "status": "posted",
+  "title": "4yuguiyhpuihphpuihphpuhpuihpu",
+  "announcement": "yuguiyhpuihphpuihphpuhpuihpuyuguiyhpuihphpuihphpuhpuihpuyuguiyhpuihphpuihphpuhpuihpu",
+  "description": "D",
+  "text": "heyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheya",
+  "tags": ["AAAaaa", "aaaaaa", "BbBbBb"]
+}
+
+### updateTextPost
+# Update a text post
+PATCH http://localhost:3500/api/posts/8 HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{jwt_token}}
+
+{
+  "text": "heyaaaaaaaaaaaddddaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+}
+
+### createImagePost
+# Create a new image post
+POST http://localhost:3500/api/posts/new HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{jwt_token}}
+
+{
+  "type": "image",
+  "title": "UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU",
+  "imageLink": "https://www.okok.com/feed/img.png",
+  "tags": ["jjjjiee", "pppppp"]
+}
+
+### createVideoPost
+# Create a new video post
+POST http://localhost:3500/api/posts/new HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{jwt_token}}
+
+{
+  "type": "video",
+  "title": "TTTTTTTTTTTTTTTTTTTTTTTTTTT",
+  "videoLink": "https://youtu.be/bbbbbbbbbbb",
+  "tags": ["p3ppppp", "gggdj", "pppppp", "gg1j", "apppppp"]
+}
+
+### repost
+# Like/dislike a post
+POST http://localhost:3500/api/posts/9/repost HTTP/1.1
+Authorization: Bearer {{jwt_token}}
+
+### likePost
+# Like/dislike a post
+POST http://localhost:3500/api/posts/9/like?action=0 HTTP/1.1
+Authorization: Bearer {{jwt_token}}
+
+### sendNewsletters
+# Send email newsletter about new posts
+POST http://localhost:3500/api/posts/news HTTP/1.1
+Authorization: Bearer {{jwt_token}}

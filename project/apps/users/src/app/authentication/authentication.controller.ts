@@ -6,7 +6,6 @@ import {fillObject} from '@project/util/util-core';
 import {LoggedUserRdo} from './rdo/logged-user.rdo';
 import {ApiResponse, ApiTags} from '@nestjs/swagger';
 import {MongoidValidationPipe} from '@project/shared/shared-pipes';
-import {JwtAuthGuard} from '@project/util/util-auth';
 import {NotifyService} from '../notify/notify.service';
 import {LocalAuthGuard} from './guards/local-auth.guard';
 import {RequestWithUserInterface} from '@project/shared/app-types';
@@ -74,7 +73,6 @@ export class AuthenticationController {
     status: HttpStatus.NOT_FOUND,
     description: 'User not found.'
   })
-  @UseGuards(JwtAuthGuard)
   @Get(':id')
   public async show(@Param('id', MongoidValidationPipe) id: string) {
     const existingUser = await this.authService.getUser(id);
