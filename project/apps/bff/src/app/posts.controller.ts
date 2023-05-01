@@ -1,10 +1,22 @@
-import {Body, Controller, Delete, Get, Param, Patch, Post, Query, Req} from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpException, HttpStatus,
+  Param,
+  Patch,
+  Post,
+  Query,
+  Req
+} from '@nestjs/common';
 import {HttpService} from '@nestjs/axios';
 import {ApplicationServiceURL} from './app.config';
 import {PostRdo} from './rdo/post.rdo';
 import {fillAuthorData} from './utils/fill-author-data.util';
 import {GetPostsQuery} from './query/get-posts.query';
 import {LikePostQuery} from './query/like-post.query';
+import {ApiResponse} from '@nestjs/swagger';
 
 @Controller('posts')
 export class PostsController {
@@ -12,12 +24,31 @@ export class PostsController {
     private readonly httpService: HttpService
   ) {}
 
+  @ApiResponse({
+    type: PostRdo,
+    status: HttpStatus.OK,
+    description: 'Post data provided.'
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: 'Post not found.'
+  })
   @Get(':postId')
   public async getPost(@Param('postId') postId) {
-    const post: PostRdo = (await this.httpService.axiosRef.get(`${ApplicationServiceURL.BlogPost}/${postId}`)).data;
-    return await fillAuthorData(post, this.httpService);
+    try {
+      const post: PostRdo = (await this.httpService.axiosRef.get(`${ApplicationServiceURL.BlogPost}/${postId}`)).data;
+      return await fillAuthorData(post, this.httpService);
+    } catch (e) {
+      throw new HttpException(e.response.statusText, e.response.status);
+    }
   }
 
+  @ApiResponse({
+    type: PostRdo,
+    isArray: true,
+    status: HttpStatus.OK,
+    description: 'Posts data provided.'
+  })
   @Get()
   public async getPosts(
     @Query() query: GetPostsQuery
@@ -28,19 +59,36 @@ export class PostsController {
     return await Promise.all(posts.map( (post) => fillAuthorData(post, this.httpService)));
   }
 
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Post successfully deleted.',
+  })
+  @ApiResponse({
+    status: HttpStatus.INTERNAL_SERVER_ERROR,
+    description: 'Post could not be deleted.'
+  })
   @Delete(':postId')
   public async deletePost(
     @Req() req: Request,
     @Param('postId') postId
   ) {
-    const { data } = await this.httpService.axiosRef.delete(`${ApplicationServiceURL.BlogPost}/${postId}`, {
-      headers: {
-        'Authorization': req.headers['authorization']
-      }
-    });
-    return data;
+    try {
+      const { data } = await this.httpService.axiosRef.delete(`${ApplicationServiceURL.BlogPost}/${postId}`, {
+        headers: {
+          'Authorization': req.headers['authorization']
+        }
+      });
+      return data;
+    } catch (e) {
+      throw new HttpException(e.response.statusText, e.response.status);
+    }
   }
 
+  @ApiResponse({
+    type: PostRdo,
+    status: HttpStatus.CREATED,
+    description: 'Post successfully created.',
+  })
   @Post('new')
   public async createPost(
     @Req() req: Request,
@@ -54,48 +102,85 @@ export class PostsController {
     return data;
   }
 
+  @ApiResponse({
+    type: PostRdo,
+    status: HttpStatus.CREATED,
+    description: 'Post successfully updated.',
+  })
   @Patch(':postId')
   public async updatePost(
     @Req() req: Request,
     @Param('postId') postId,
     @Body() updatePostDto
   ) {
-    const { data } = await this.httpService.axiosRef.patch(`${ApplicationServiceURL.BlogPost}/${postId}`, updatePostDto, {
-      headers: {
-        'Authorization': req.headers['authorization']
-      }
-    });
-    return data;
+    try {
+      const {data} = await this.httpService.axiosRef.patch(`${ApplicationServiceURL.BlogPost}/${postId}`, updatePostDto, {
+        headers: {
+          'Authorization': req.headers['authorization']
+        }
+      });
+      return data;
+    } catch (e) {
+      throw new HttpException(e.response.statusText, e.response.status);
+  }
   }
 
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Post successfully reposted.',
+  })
+  @ApiResponse({
+    status: HttpStatus.BAD_REQUEST,
+    description: 'You cannot repost your own posts.'
+  })
   @Post(':postId/repost')
   public async repost(
     @Req() req: Request,
     @Param('postId') postId,
   ) {
-    const { data } = await this.httpService.axiosRef.post(`${ApplicationServiceURL.BlogPost}/${postId}/repost`, null, {
-      headers: {
-        'Authorization': req.headers['authorization']
-      }
-    });
-    return data;
+    try {
+      const {data} = await this.httpService.axiosRef.post(`${ApplicationServiceURL.BlogPost}/${postId}/repost`, null, {
+        headers: {
+          'Authorization': req.headers['authorization']
+        }
+      })
+      return data;
+    } catch (e) {
+      throw new HttpException(e.response.statusText, e.response.status);
+    }
   }
 
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Post successfully liked/disliked.',
+  })
+  @ApiResponse({
+    status: HttpStatus.INTERNAL_SERVER_ERROR,
+    description: 'Post could not be liked/disliked.'
+  })
   @Post(':postId/like')
   public async likePost(
     @Req() req: Request,
     @Param('postId') postId,
     @Query() query: LikePostQuery,
   ) {
-    const { data } = await this.httpService.axiosRef.post(`${ApplicationServiceURL.BlogPost}/${postId}/like`, null, {
-      headers: {
-        'Authorization': req.headers['authorization']
-      },
-      params: query
-    });
-    return data;
+    try {
+      const {data} = await this.httpService.axiosRef.post(`${ApplicationServiceURL.BlogPost}/${postId}/like`, null, {
+        headers: {
+          'Authorization': req.headers['authorization']
+        },
+        params: query
+      });
+      return data;
+    } catch (e) {
+      throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
+    }
   }
 
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Newsletter sent.',
+  })
   @Post('news')
   public async sendNewsletters(@Req() req: Request) {
     const { data } = await this.httpService.axiosRef.post(`${ApplicationServiceURL.BlogPost}/news`, null, {
@@ -103,7 +188,6 @@ export class PostsController {
         'Authorization': req.headers['authorization']
       }
     });
-
     return data;
   }
 

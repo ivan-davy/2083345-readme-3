@@ -1,14 +1,25 @@
-import {Body, Controller, Get, Param, Post, Req} from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  HttpException,
+  HttpStatus,
+  Param,
+  Post,
+  Req,
+  UploadedFile,
+  UseInterceptors
+} from '@nestjs/common';
 import {HttpService} from '@nestjs/axios';
 import {ApplicationServiceURL} from './app.config';
-
+import {FileInterceptor} from '@nestjs/platform-express';
+import {Multer} from 'multer';
+const FormData = require('form-data');
 
 @Controller('files')
 export class FileController {
   constructor(
     private readonly httpService: HttpService
   ) {}
-
 
   @Get(':fileId')
   public async getFileById(@Param('fileId') fileId) {
@@ -17,15 +28,24 @@ export class FileController {
   }
 
   @Post('upload')
+  @UseInterceptors(FileInterceptor('file'))
   public async uploadFile(
     @Req() req: Request,
-    @Body() file,
+    @UploadedFile() file: Express.Multer.File,
   ) {
-    const { data } = await this.httpService.axiosRef.post(`${ApplicationServiceURL.Files}/upload`, file, {
-      headers: {
-        'Content-Type': req.headers['content-type']
-      }
-    });
-    return data;
+    const formData = new FormData()
+    formData.append('file', Buffer.from(file.buffer), file.originalname)
+    try {
+      const { data } = await this.httpService.axiosRef.post(`${ApplicationServiceURL.Files}/upload`, formData, {
+        headers: {
+          'Content-Type': req.headers['content-type'],
+          ...formData.getHeaders()
+        }
+      });
+      return data;
+    } catch (err) {
+      throw new HttpException('Error', HttpStatus.INTERNAL_SERVER_ERROR)
+    }
+
   }
 }
