@@ -5,6 +5,7 @@ import {UserInterface} from '@project/shared/app-types';
 import {BlogUserModel} from './blog-user.model';
 import {Model} from 'mongoose';
 import {InjectModel} from '@nestjs/mongoose';
+import {SubscribeToUserQueryActionEnum} from './query/subscribe-to-user.query';
 
 @Injectable()
 export class BlogUserRepository implements CrudRepositoryInterface<BlogUserEntity, string, UserInterface> {
@@ -37,5 +38,19 @@ export class BlogUserRepository implements CrudRepositoryInterface<BlogUserEntit
     return this.blogUserModel
       .findByIdAndUpdate(id, item.toObject(), {new: true})
       .exec();
+  }
+
+  public async subscribe(
+    userId: string,
+    currentUserId: string,
+    action: number
+  ): Promise<string[]> {
+    let currentUser: UserInterface = await this.findById(currentUserId);
+    if (action == SubscribeToUserQueryActionEnum.Sub) {
+      currentUser.subscribedTo.push(userId);
+    } else {
+      currentUser.subscribedTo = currentUser.subscribedTo.filter((item) => item !== userId);
+    }
+    return (await this.update(currentUserId, new BlogUserEntity(currentUser))).subscribedTo;
   }
 }

@@ -26,6 +26,35 @@ export class PostsController {
 
   @ApiResponse({
     type: PostRdo,
+    isArray: true,
+    status: HttpStatus.OK,
+    description: 'Posts data provided.'
+  })
+  @Post('feed')
+  async getFeed(
+    @Req() req: Request,
+    @Param('postId') postId,
+    @Query() query: GetPostsQuery,
+  ) {
+    try {
+      const subscribedTo = (await this.httpService.axiosRef.get(`${ApplicationServiceURL.User}/subscriptions`, {
+        headers: {
+          'Authorization': req.headers['authorization']
+        },
+      })).data;
+      const { data } = await this.httpService.axiosRef.post(`${ApplicationServiceURL.BlogPost}/by-users`,
+        { ids: subscribedTo },
+        { params: query }
+      );
+      return data;
+    } catch (err) {
+      throw new HttpException(err.response.statusText, err.response.statusCode)
+    }
+  }
+
+
+  @ApiResponse({
+    type: PostRdo,
     status: HttpStatus.OK,
     description: 'Post data provided.'
   })
@@ -38,25 +67,9 @@ export class PostsController {
     try {
       const post: PostRdo = (await this.httpService.axiosRef.get(`${ApplicationServiceURL.BlogPost}/${postId}`)).data;
       return await fillAuthorData(post, this.httpService);
-    } catch (e) {
-      throw new HttpException(e.response.statusText, e.response.status);
+    } catch (err) {
+      throw new HttpException(err.response.statusText, err.response.status);
     }
-  }
-
-  @ApiResponse({
-    type: PostRdo,
-    isArray: true,
-    status: HttpStatus.OK,
-    description: 'Posts data provided.'
-  })
-  @Get()
-  public async getPosts(
-    @Query() query: GetPostsQuery
-  ) {
-    const posts: PostRdo[] = (await this.httpService.axiosRef.get(`${ApplicationServiceURL.BlogPost}`, {
-      params: query
-    })).data;
-    return await Promise.all(posts.map( (post) => fillAuthorData(post, this.httpService)));
   }
 
   @ApiResponse({
@@ -79,8 +92,8 @@ export class PostsController {
         }
       });
       return data;
-    } catch (e) {
-      throw new HttpException(e.response.statusText, e.response.status);
+    } catch (err) {
+      throw new HttpException(err.response.statusText, err.response.status);
     }
   }
 
@@ -89,17 +102,25 @@ export class PostsController {
     status: HttpStatus.CREATED,
     description: 'Post successfully created.',
   })
+  @ApiResponse({
+    status: HttpStatus.UNAUTHORIZED,
+    description: 'Unauthorized.',
+  })
   @Post('new')
   public async createPost(
     @Req() req: Request,
     @Body() createPostDto
   ) {
-    const { data } = await this.httpService.axiosRef.post(`${ApplicationServiceURL.BlogPost}/new`, createPostDto, {
-      headers: {
-        'Authorization': req.headers['authorization']
-      }
-    });
-    return data;
+    try {
+      const { data } = await this.httpService.axiosRef.post(`${ApplicationServiceURL.BlogPost}/new`, createPostDto, {
+        headers: {
+          'Authorization': req.headers['authorization']
+        }
+      });
+      return data;
+    } catch (err) {
+      throw new HttpException(err.response.statusText, err.response.status);
+    }
   }
 
   @ApiResponse({
@@ -120,8 +141,8 @@ export class PostsController {
         }
       });
       return data;
-    } catch (e) {
-      throw new HttpException(e.response.statusText, e.response.status);
+    } catch (err) {
+      throw new HttpException(err.response.statusText, err.response.status);
   }
   }
 
@@ -145,8 +166,8 @@ export class PostsController {
         }
       })
       return data;
-    } catch (e) {
-      throw new HttpException(e.response.statusText, e.response.status);
+    } catch (err) {
+      throw new HttpException(err.response.statusText, err.response.status);
     }
   }
 
@@ -172,7 +193,7 @@ export class PostsController {
         params: query
       });
       return data;
-    } catch (e) {
+    } catch (err) {
       throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
     }
   }
@@ -191,4 +212,19 @@ export class PostsController {
     return data;
   }
 
+  @ApiResponse({
+    type: PostRdo,
+    isArray: true,
+    status: HttpStatus.OK,
+    description: 'Posts data provided.'
+  })
+  @Get('/')
+  public async getPosts(
+    @Query() query: GetPostsQuery
+  ) {
+    const posts: PostRdo[] = (await this.httpService.axiosRef.get(`${ApplicationServiceURL.BlogPost}`, {
+      params: query
+    })).data;
+    return await Promise.all(posts.map( (post) => fillAuthorData(post, this.httpService)));
+  }
 }

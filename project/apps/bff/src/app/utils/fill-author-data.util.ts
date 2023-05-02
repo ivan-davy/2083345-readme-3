@@ -4,9 +4,9 @@ import {HttpService} from '@nestjs/axios';
 
 export async function fillAuthorData(postData, httpService: HttpService) {
   const authorData: UserRdo | string = postData.authorId !== "" ?
-    (await httpService.axiosRef.get(`${ApplicationServiceURL.Auth}/${postData.authorId}`)).data : postData.authorId;
+    (await httpService.axiosRef.get(`${ApplicationServiceURL.User}/${postData.authorId}`)).data : postData.authorId;
   const origAuthorData: UserRdo | string = postData.origAuthorId !== "" ?
-    (await httpService.axiosRef.get(`${ApplicationServiceURL.Auth}/${postData.origAuthorId}`)).data : postData.origAuthorId;
+    (await httpService.axiosRef.get(`${ApplicationServiceURL.User}/${postData.origAuthorId}`)).data : postData.origAuthorId;
   delete postData.authorId
   delete postData.origAuthorId
   return {...postData, author: authorData, origAuthor: origAuthorData};

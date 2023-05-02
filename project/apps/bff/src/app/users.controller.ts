@@ -65,7 +65,7 @@ export class UsersController {
     @Req() req: Request,
     @Param('id') id: string,
   ) {
-    const { data } = await this.httpService.axiosRef.get(`${ApplicationServiceURL.Auth}/${id}`);
+    const { data } = await this.httpService.axiosRef.get(`${ApplicationServiceURL.User}/${id}`);
     return data;
   }
 

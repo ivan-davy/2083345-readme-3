@@ -46,13 +46,17 @@ export class BlogPostRepository implements CrudRepositoryInterface<BlogPostEntit
     return prismaToPost(post, prismaLike);
   }
 
-  public async find({limit, tag, type, sortBy, sortDirection, page}: GetPostsQuery): Promise<PostInterface[]> {
+  public async find(
+    {limit, tag, type, sortBy, sortDirection, page}: GetPostsQuery,
+    userIds: string[] = undefined
+  ): Promise<PostInterface[]> {
     const queryObject = {
       where: {
         AND: {
           status: PostStatusEnum.Posted,
           type: type as PostTypeEnum,
-          tags: undefined
+          tags: undefined,
+          authorId: undefined
         }
       },
       take: limit,
@@ -66,6 +70,9 @@ export class BlogPostRepository implements CrudRepositoryInterface<BlogPostEntit
     }
     if (tag) {
       queryObject.where.AND.tags = { has: tag };
+    }
+    if (userIds) {
+      queryObject.where.AND.authorId = { in: userIds };
     }
 
     const posts = await this.prisma.post.findMany(queryObject);

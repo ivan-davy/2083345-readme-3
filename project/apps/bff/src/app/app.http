@@ -5,7 +5,7 @@ POST http://localhost:3500/api/users/login HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "keksissimo2@mail.com",
+  "email": "keksissimo1@mail.com",
   "password": "123456"
 }
 
@@ -21,7 +21,7 @@ POST http://localhost:3500/api/users/register HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "keksissimo3@mail.com",
+  "email": "keksissimo1@mail.com",
   "avatar": "avt.png",
   "name": "Keks",
   "password": "123456"
@@ -29,8 +29,7 @@ Content-Type: application/json
 
 ### getUser
 # Get user by ID
-
-GET http://localhost:3500/api/users/6442815b2ef0e2b10f8b775f HTTP/1.1
+GET http://localhost:3500/api/users/645144ba28cb64e0a917f51e HTTP/1.1
 
 ### refresh
 # Get new JWT pair
@@ -45,7 +44,7 @@ GET http://localhost:3500/api/posts/10 HTTP/1.1
 
 ### getPosts
 # Get all posts
-GET http://localhost:3500/api/posts?limit=5 HTTP/1.1
+GET http://localhost:3500/api/posts?limit=10 HTTP/1.1
 
 ### deletePost
 # Delete post by ID
@@ -118,6 +117,12 @@ Authorization: Bearer {{jwt_token}}
 # Send email newsletter about new posts
 POST http://localhost:3500/api/posts/news HTTP/1.1
 Authorization: Bearer {{jwt_token}}
+
+### getFeed
+# Get posts from users
+POST http://localhost:3500/api/posts/feed HTTP/1.1
+Authorization: Bearer {{jwt_token}}
+
 
 
 

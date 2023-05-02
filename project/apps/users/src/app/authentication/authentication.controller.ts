@@ -1,21 +1,22 @@
-import {Body, Controller, Get, HttpCode, HttpStatus, Param, Post, Req, UseGuards} from '@nestjs/common';
+import {Body, Controller, HttpCode, HttpStatus, Post, Req, UseGuards} from '@nestjs/common';
 import {AuthenticationService} from './authentication.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import {UserRdo} from './rdo/user.rdo';
 import {fillObject} from '@project/util/util-core';
 import {LoggedUserRdo} from './rdo/logged-user.rdo';
 import {ApiResponse, ApiTags} from '@nestjs/swagger';
-import {MongoidValidationPipe} from '@project/shared/shared-pipes';
 import {NotifyService} from '../notify/notify.service';
 import {LocalAuthGuard} from './guards/local-auth.guard';
 import {RequestWithUserInterface} from '@project/shared/app-types';
 import {JwtRefreshGuard} from './guards/jwt-refresh.guard';
+import {BlogUserService} from '../blog-user/blog-user.service';
 
 @ApiTags('authentication')
 @Controller('auth')
 export class AuthenticationController {
   constructor(
     private readonly authService: AuthenticationService,
+    private readonly userService: BlogUserService,
     private readonly notifyService: NotifyService,
   ) {
   }
@@ -62,20 +63,5 @@ export class AuthenticationController {
   @Post('refresh')
   public async refreshToken(@Req() { user }: RequestWithUserInterface) {
     return this.authService.createUserToken(user);
-  }
-
-  @ApiResponse({
-    type: UserRdo,
-    status: HttpStatus.OK,
-    description: 'User data provided.'
-  })
-  @ApiResponse({
-    status: HttpStatus.NOT_FOUND,
-    description: 'User not found.'
-  })
-  @Get(':id')
-  public async show(@Param('id', MongoidValidationPipe) id: string) {
-    const existingUser = await this.authService.getUser(id);
-    return fillObject(UserRdo, existingUser);
   }
 }

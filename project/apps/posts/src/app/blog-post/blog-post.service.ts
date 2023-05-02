@@ -72,6 +72,14 @@ export class BlogPostService {
     }))
   }
 
+  async getPostsFromUsers(query: GetPostsQuery, userIds: string[]): Promise<PostInterface[]> {
+    const posts = await this.blogPostRepository.find(query, userIds);
+    return Promise.all(posts.map(async (post) => {
+      const comments = await this.blogCommentRepository.findByPostId(post._id, new CommentQuery())
+      return {...post, commentsQty: comments.length}
+    }))
+  }
+
   public async remove(
     postId: number,
   ) {

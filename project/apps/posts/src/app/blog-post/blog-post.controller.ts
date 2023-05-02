@@ -83,6 +83,21 @@ export class BlogPostController {
     status: HttpStatus.OK,
     description: 'Posts data provided.'
   })
+  @Post('by-users')
+  async showByUserIds(
+    @Query() query: GetPostsQuery,
+    @Body() data: { ids: string[] }
+  ) {
+    const posts = await this.postService.getPostsFromUsers(query, data.ids);
+    return posts.map((post) => fillRdoForPost(post));
+  }
+
+  @ApiResponse({
+    type: PostRdo,
+    isArray: true,
+    status: HttpStatus.OK,
+    description: 'Posts data provided.'
+  })
   @Get('/')
   async show(@Query() query: GetPostsQuery) {
     const posts = await this.postService.get(query);
@@ -198,4 +213,5 @@ export class BlogPostController {
     this.postService.clearPostNewsletterList();
     return await this.notifyService.initPostNewsletter(newsletterPosts);
   }
+
 }

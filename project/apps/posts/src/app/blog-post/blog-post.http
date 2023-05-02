@@ -70,10 +70,20 @@ Authorization: Bearer {{jwt_token}}
 
 ### likePost
 # Like/dislike a post
-POST http://localhost:3332/api/post/800/like?action=1 HTTP/1.1
+POST http://localhost:3332/api/post/8/like?action=1 HTTP/1.1
 Authorization: Bearer {{jwt_token}}
 
 ### sendNewsletters
 # Send email newsletter about new posts
 POST http://localhost:3332/api/post/news HTTP/1.1
 Authorization: Bearer {{jwt_token}}
+
+### getPostsByUserIds
+# Get posts from users
+POST http://localhost:3332/api/post/by-users HTTP/1.1
+Authorization: Bearer {{jwt_token}}
+Content-Type: application/json
+
+{
+  "ids": ["6451194059bccfdfae38ef17"]
+}

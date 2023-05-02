@@ -22,12 +22,13 @@ export class AuthenticationService {
   ) {}
 
   public async register(dto: CreateUserDto) {
-    const {email, name, avatar='', password} = dto;
+    const {email, name, avatar= '', password} = dto;
 
     const blogUser = {
       email, name,
       avatar,
       passwordHash: '',
+      subscribedTo: []
     };
 
     const existUser = await this.blogUserRepository
@@ -58,10 +59,6 @@ export class AuthenticationService {
     }
 
     return blogUserEntity.toObject();
-  }
-
-  public async getUser(id: string) {
-    return this.blogUserRepository.findById(id);
   }
 
   public async createUserToken(user: UserInterface) {
