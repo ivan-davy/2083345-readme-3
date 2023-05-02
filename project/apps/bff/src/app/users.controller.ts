@@ -1,4 +1,4 @@
-import {Body, Controller, Get, HttpStatus, Param, Post, Req, UseFilters} from '@nestjs/common';
+import {Body, Controller, Get, HttpCode, HttpException, HttpStatus, Param, Post, Req, UseFilters} from '@nestjs/common';
 import {HttpService} from '@nestjs/axios';
 import {LoginUserDto} from './dto/login-user.dto';
 import {ApplicationServiceURL} from './app.config';
@@ -24,10 +24,16 @@ export class UsersController {
     status: HttpStatus.UNAUTHORIZED,
     description: 'Login failed.',
   })
+  @HttpCode(HttpStatus.OK)
   @Post('login')
   public async login(@Body() loginUserDto: LoginUserDto) {
-    const { data } = await this.httpService.axiosRef.post(`${ApplicationServiceURL.Auth}/login`, loginUserDto);
-    return data;
+    try {
+      const { data } = await this.httpService.axiosRef.post(`${ApplicationServiceURL.Auth}/login`, loginUserDto);
+      return data;
+    } catch (err) {
+      throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
+    }
+
   }
 
   @ApiResponse({

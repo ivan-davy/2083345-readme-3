@@ -12,8 +12,8 @@ import {
 import {HttpService} from '@nestjs/axios';
 import {ApplicationServiceURL} from './app.config';
 import {FileInterceptor} from '@nestjs/platform-express';
+import FormData from 'form-data'
 import {Multer} from 'multer';
-const FormData = require('form-data');
 
 @Controller('files')
 export class FileController {
