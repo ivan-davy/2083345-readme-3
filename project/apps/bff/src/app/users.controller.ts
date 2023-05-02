@@ -1,4 +1,16 @@
-import {Body, Controller, Get, HttpCode, HttpException, HttpStatus, Param, Post, Req, UseFilters} from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  HttpException,
+  HttpStatus,
+  Param,
+  Post,
+  Query,
+  Req,
+  UseFilters
+} from '@nestjs/common';
 import {HttpService} from '@nestjs/axios';
 import {LoginUserDto} from './dto/login-user.dto';
 import {ApplicationServiceURL} from './app.config';
@@ -7,6 +19,7 @@ import {CreateUserDto} from './dto/create-user.dto';
 import {ApiResponse} from '@nestjs/swagger';
 import {UserRdo} from '../../../users/src/app/authentication/rdo/user.rdo';
 import {LoggedUserRdo} from '../../../users/src/app/authentication/rdo/logged-user.rdo';
+import {SubscribeToUserQuery} from '../../../users/src/app/blog-user/query/subscribe-to-user.query';
 
 @Controller('users')
 @UseFilters(AxiosExceptionFilter)
@@ -80,7 +93,25 @@ export class UsersController {
         'Authorization': req.headers['authorization']
       }
     });
+    return data;
+  }
 
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Get new access/refresh tokens'
+  })
+  @Post(':userId/subscribe')
+  public async subscribeToUser(
+    @Req() req: Request,
+    @Query() query: SubscribeToUserQuery,
+    @Param('userId') userId: string,
+  ) {
+    const { data } = await this.httpService.axiosRef.post(`${ApplicationServiceURL.User}/${userId}/subscribe`, null, {
+      headers: {
+        'Authorization': req.headers['authorization']
+      },
+      params: query,
+    });
     return data;
   }
 }

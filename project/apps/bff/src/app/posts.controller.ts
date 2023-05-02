@@ -42,11 +42,11 @@ export class PostsController {
           'Authorization': req.headers['authorization']
         },
       })).data;
-      const { data } = await this.httpService.axiosRef.post(`${ApplicationServiceURL.BlogPost}/by-users`,
+      const posts = (await this.httpService.axiosRef.post(`${ApplicationServiceURL.BlogPost}/by-users`,
         { ids: subscribedTo },
         { params: query }
-      );
-      return data;
+      )).data;
+      return await Promise.all(posts.map( (post) => fillAuthorData(post, this.httpService)));
     } catch (err) {
       throw new HttpException(err.response.statusText, err.response.statusCode)
     }
@@ -112,12 +112,12 @@ export class PostsController {
     @Body() createPostDto
   ) {
     try {
-      const { data } = await this.httpService.axiosRef.post(`${ApplicationServiceURL.BlogPost}/new`, createPostDto, {
+      const post = (await this.httpService.axiosRef.post(`${ApplicationServiceURL.BlogPost}/new`, createPostDto, {
         headers: {
           'Authorization': req.headers['authorization']
         }
-      });
-      return data;
+      })).data;
+      return fillAuthorData(post, this.httpService);
     } catch (err) {
       throw new HttpException(err.response.statusText, err.response.status);
     }
@@ -135,12 +135,12 @@ export class PostsController {
     @Body() updatePostDto
   ) {
     try {
-      const {data} = await this.httpService.axiosRef.patch(`${ApplicationServiceURL.BlogPost}/${postId}`, updatePostDto, {
+      const post = (await this.httpService.axiosRef.patch(`${ApplicationServiceURL.BlogPost}/${postId}`, updatePostDto, {
         headers: {
           'Authorization': req.headers['authorization']
         }
-      });
-      return data;
+      })).data;
+      return fillAuthorData(post, this.httpService);
     } catch (err) {
       throw new HttpException(err.response.statusText, err.response.status);
   }
@@ -160,12 +160,12 @@ export class PostsController {
     @Param('postId') postId,
   ) {
     try {
-      const {data} = await this.httpService.axiosRef.post(`${ApplicationServiceURL.BlogPost}/${postId}/repost`, null, {
+      const post = (await this.httpService.axiosRef.post(`${ApplicationServiceURL.BlogPost}/${postId}/repost`, null, {
         headers: {
           'Authorization': req.headers['authorization']
         }
-      })
-      return data;
+      })).data;
+      return fillAuthorData(post, this.httpService);
     } catch (err) {
       throw new HttpException(err.response.statusText, err.response.status);
     }

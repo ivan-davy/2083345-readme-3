@@ -36,6 +36,11 @@ GET http://localhost:3500/api/users/645144ba28cb64e0a917f51e HTTP/1.1
 POST http://localhost:3500/api/users/refresh HTTP/1.1
 Authorization: Bearer {{refresh_jwt_token}}
 
+### subscribeToUser
+# Subscribe to a user
+
+POST http://localhost:3500/api/users/645144b228cb64e0a917f51a/subscribe?action=1 HTTP/1.1
+Authorization: Bearer {{jwt_token}}
 
 
 ### getPost
