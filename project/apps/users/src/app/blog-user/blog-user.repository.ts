@@ -40,6 +40,17 @@ export class BlogUserRepository implements CrudRepositoryInterface<BlogUserEntit
       .exec();
   }
 
+  public async getSubscribersByUserId(userId: string) {
+    const temp = await this.blogUserModel
+      .aggregate([
+        {
+          $match: {subscribedTo: { has: { userId } }}
+        }
+      ]).exec();
+    console.log(temp);
+    return temp;
+  }
+
   public async subscribe(
     userId: string,
     currentUserId: string,

@@ -81,7 +81,6 @@ Authorization: Bearer {{jwt_token}}
 ### getPostsByUserIds
 # Get posts from users
 POST http://localhost:3332/api/post/by-users HTTP/1.1
-Authorization: Bearer {{jwt_token}}
 Content-Type: application/json
 
 {

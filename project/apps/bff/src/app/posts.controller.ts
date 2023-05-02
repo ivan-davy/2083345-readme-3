@@ -37,7 +37,7 @@ export class PostsController {
     @Query() query: GetPostsQuery,
   ) {
     try {
-      const subscribedTo = (await this.httpService.axiosRef.get(`${ApplicationServiceURL.User}/subscriptions`, {
+      const subscribedTo = (await this.httpService.axiosRef.get(`${ApplicationServiceURL.BlogUser}/subscriptions`, {
         headers: {
           'Authorization': req.headers['authorization']
         },

@@ -8,8 +8,12 @@ export class BlogUserService {
     private readonly blogUserRepository: BlogUserRepository,
   ) {}
 
-  public async getUser(id: string) {
-    return this.blogUserRepository.findById(id);
+  public async getUser(userId: string) {
+    return this.blogUserRepository.findById(userId);
+  }
+
+  public async getSubscribers(userId: string) {
+    return this.blogUserRepository.getSubscribersByUserId(userId)
   }
 
   public async subscribe(

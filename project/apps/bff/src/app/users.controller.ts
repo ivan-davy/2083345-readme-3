@@ -78,8 +78,13 @@ export class UsersController {
     @Req() req: Request,
     @Param('id') id: string,
   ) {
-    const { data } = await this.httpService.axiosRef.get(`${ApplicationServiceURL.User}/${id}`);
-    return data;
+    const userData = (await this.httpService.axiosRef.get(`${ApplicationServiceURL.BlogUser}/${id}`)).data;
+    const postsQty = (await this.httpService.axiosRef.post(
+      `${ApplicationServiceURL.BlogPost}/by-users`,
+      {ids: [id]})
+    ).data.length;
+    const subscribersQty = (await this.httpService.axiosRef.get(`${ApplicationServiceURL.BlogUser}/${id}/get-subscribers`)).data.length;
+    return {...userData, postsQty, subscribersQty};
   }
 
   @ApiResponse({
@@ -106,7 +111,7 @@ export class UsersController {
     @Query() query: SubscribeToUserQuery,
     @Param('userId') userId: string,
   ) {
-    const { data } = await this.httpService.axiosRef.post(`${ApplicationServiceURL.User}/${userId}/subscribe`, null, {
+    const { data } = await this.httpService.axiosRef.post(`${ApplicationServiceURL.BlogUser}/${userId}/subscribe`, null, {
       headers: {
         'Authorization': req.headers['authorization']
       },

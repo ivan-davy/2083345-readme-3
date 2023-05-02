@@ -57,6 +57,19 @@ export class BlogUserController {
 
   @ApiResponse({
     type: UserRdo,
+    isArray: true,
+    status: HttpStatus.OK,
+    description: 'Subscribers provided.',
+  })
+  @Get(':userId/subscribers')
+  public async getSubscribers(
+    @Param('userId') userId: string,
+  ) {
+    return await this.userService.getSubscribers(userId);
+  }
+
+  @ApiResponse({
+    type: UserRdo,
     status: HttpStatus.OK,
     description: 'User data provided.'
   })
