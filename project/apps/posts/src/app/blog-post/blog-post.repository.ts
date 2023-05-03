@@ -91,6 +91,7 @@ export class BlogPostRepository implements CrudRepositoryInterface<BlogPostEntit
     delete data._id;
     delete data._authorId;
     delete data._origAuthorId;
+    delete data.commentsQty;
 
     const post = await this.prisma.post.update({
       where: {

@@ -22,7 +22,6 @@ Authorization: Bearer {{jwt_token}}
   "status": "posted",
   "title": "4yuguiyhpuihphpuihphpuhpuihpu",
   "announcement": "yuguiyhpuihphpuihphpuhpuihpuyuguiyhpuihphpuihphpuhpuihpuyuguiyhpuihphpuihphpuhpuihpu",
-  "description": "D",
   "text": "heyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheya",
   "tags": ["AAAaaa", "aaaaaa", "BbBbBb"]
 }
