@@ -35,10 +35,11 @@ export class BlogUserController {
     @Param('userId') userId: string,
     @CurrentUser() currentUser: TokenPayloadInterface,
   ) {
-    if (userId === currentUser.sub) {
-      throw new HttpException('You cannot subscribe to yourself.', HttpStatus.BAD_REQUEST)
+    try {
+      return await this.userService.subscribe(userId, currentUser.sub, query);
+    } catch (err) {
+      throw new HttpException(err.response.message, err.response.code);
     }
-    return await this.userService.subscribe(userId, currentUser.sub, query);
   }
 
   @ApiResponse({

@@ -5,7 +5,7 @@ POST http://localhost:3500/api/users/login HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "keksissimo1@mail.com",
+  "email": "keksissimo9@mail.com",
   "password": "123456"
 }
 
@@ -21,7 +21,7 @@ POST http://localhost:3500/api/users/register HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "keksissimo1@mail.com",
+  "email": "keksissimo9@mail.com",
   "avatar": "avt.png",
   "name": "Keks",
   "password": "123456"
@@ -39,7 +39,7 @@ Authorization: Bearer {{refresh_jwt_token}}
 ### subscribeToUser
 # Subscribe to a user
 
-POST http://localhost:3500/api/users/645144b228cb64e0a917f51a/subscribe?action=1 HTTP/1.1
+POST http://localhost:3500/api/users/6452f2d8389d65990c3029ea/subscribe?action=1 HTTP/1.1
 Authorization: Bearer {{jwt_token}}
 
 
