@@ -44,7 +44,7 @@ export class BlogUserRepository implements CrudRepositoryInterface<BlogUserEntit
     const temp = await this.blogUserModel
       .aggregate([
         {
-          $match: {subscribedTo: { has: { userId } }}
+          $match:{ subscribedTo: { $elemMatch: {$gte: userId }} }
         }
       ]).exec();
     console.log(temp);

@@ -5,7 +5,7 @@ import {SubscribeToUserQuery} from './query/subscribe-to-user.query';
 import {BlogUserService} from './blog-user.service';
 import {TokenPayloadInterface} from '@project/shared/app-types';
 import {string} from 'joi';
-import {UserRdo} from '../authentication/rdo/user.rdo';
+import {UserRdo} from './rdo/user.rdo';
 import {MongoidValidationPipe} from '@project/shared/shared-pipes';
 import {fillObject} from '@project/util/util-core';
 

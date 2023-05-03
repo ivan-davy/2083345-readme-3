@@ -29,7 +29,7 @@ Content-Type: application/json
 
 ### getUser
 # Get user by ID
-GET http://localhost:3500/api/users/645144ba28cb64e0a917f51e HTTP/1.1
+GET http://localhost:3500/api/users/645144b228cb64e0a917f51a HTTP/1.1
 
 ### refresh
 # Get new JWT pair
