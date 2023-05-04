@@ -7,6 +7,7 @@ import {prismaToPost} from './utils/prisma-to-post';
 import {GetPostsQuery} from './query/get-posts.query';
 import {Like} from '@prisma/client';
 import {LikePostQueryActionEnum} from './query/like-post.query';
+import {SearchPostsQuery} from './query/search-posts.query';
 
 @Injectable()
 export class BlogPostRepository implements CrudRepositoryInterface<BlogPostEntity, number, PostInterface> {
@@ -73,6 +74,31 @@ export class BlogPostRepository implements CrudRepositoryInterface<BlogPostEntit
     }
     if (userIds) {
       queryObject.where.AND.authorId = { in: userIds };
+    }
+
+    const posts = await this.prisma.post.findMany(queryObject);
+    return await Promise.all(posts.map(async (post) => {
+      const prismaLike = await this.getLikesForPost(post.postId);
+      return prismaToPost(post, prismaLike)
+    }))
+  }
+
+  public async searchTitle(
+    {searchRequest, limit}: SearchPostsQuery,
+  ): Promise<PostInterface[]> {
+    const queryObject = {
+      where: {
+        AND: {
+          status: PostStatusEnum.Posted,
+          title: {
+            search: searchRequest.split(" ").join(" & "),
+          },
+        }
+      },
+      take: limit,
+      include: {
+        comments: true,
+      }
     }
 
     const posts = await this.prisma.post.findMany(queryObject);

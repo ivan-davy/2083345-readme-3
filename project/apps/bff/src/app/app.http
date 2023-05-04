@@ -154,6 +154,9 @@ Authorization: Bearer {{jwt_token}}
 POST http://localhost:3500/api/posts/feed HTTP/1.1
 Authorization: Bearer {{jwt_token}}
 
+### searchPostsByTitle
+# Search posts by 'title' field
+GET http://localhost:3500/api/posts/search?searchRequest=wanted%20title
 
 
 

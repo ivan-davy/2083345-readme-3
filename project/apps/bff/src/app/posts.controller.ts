@@ -52,6 +52,23 @@ export class PostsController {
     }
   }
 
+  @ApiResponse({
+    type: PostRdo,
+    isArray: true,
+    status: HttpStatus.OK,
+    description: 'Posts search data provided.'
+  })
+  @Get('search')
+  async searchPostsByTitle(
+    @Req() req: Request,
+    @Query() query: GetPostsQuery,
+  ) {
+    const posts: PostRdo[] = (await this.httpService.axiosRef.get(`${ApplicationServiceURL.BlogPost}/search`, {
+      params: query
+    })).data;
+    return await Promise.all(posts.map( (post) => fillAuthorData(post, this.httpService)));
+  }
+
 
   @ApiResponse({
     type: PostRdo,

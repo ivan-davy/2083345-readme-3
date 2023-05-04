@@ -6,6 +6,10 @@ GET http://localhost:3332/api/post/10 HTTP/1.1
 # Get all posts
 GET http://localhost:3332/api/post HTTP/1.1
 
+### searchPosts
+# Search posts by title
+GET http://localhost:3332/api/post/search?searchRequest=unique%20title
+
 ### deletePost
 # Delete post by ID
 DELETE http://localhost:3332/api/post/8 HTTP/1.1
@@ -18,9 +22,9 @@ Content-Type: application/json
 Authorization: Bearer {{jwt_token}}
 
 {
-  "type": "ext",
+  "type": "text",
   "status": "posted",
-  "title": "4yuguiyhpuihphpuihphpuhpuihpu",
+  "title": "Unique title je9fuvne9ufnv wow ok rbnrgbneirfberfb",
   "announcement": "yuguiyhpuihphpuihphpuhpuihpuyuguiyhpuihphpuihphpuhpuihpuyuguiyhpuihphpuihphpuhpuihpu",
   "text": "heyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheyaheya",
   "tags": ["AAAaaa", "aaaaaa", "BbBbBb"]
