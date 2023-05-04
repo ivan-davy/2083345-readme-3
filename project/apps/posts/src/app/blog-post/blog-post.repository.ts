@@ -135,10 +135,11 @@ export class BlogPostRepository implements CrudRepositoryInterface<BlogPostEntit
 
   public async like(postId: number, userId: string, action: LikePostQueryActionEnum): Promise<LikeInterface> {
     let likesForPost: string[] = (await this.getLikesForPost(postId)).likedByUsersIds;
-    if (action === LikePostQueryActionEnum.Like && !likesForPost.includes(userId)) {
+    const post = await this.findById(postId);
+    if (action === LikePostQueryActionEnum.Like && !likesForPost.includes(userId) && post.status === PostStatusEnum.Posted) {
       likesForPost.push(userId);
     }
-    if (action === LikePostQueryActionEnum.Dislike && likesForPost.includes(userId)) {
+    if (action === LikePostQueryActionEnum.Dislike && likesForPost.includes(userId) && post.status === PostStatusEnum.Posted) {
       likesForPost = likesForPost.filter((id) => id !== userId)
     }
     await this.prisma.like.update({
