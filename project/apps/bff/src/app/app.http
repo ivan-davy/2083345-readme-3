@@ -1,0 +1,200 @@
+### loginUser
+# Login user by email and password
+
+POST http://localhost:3500/api/users/login HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "keksissimo2@mail.com",
+  "password": "123456"
+}
+
+> {%
+  client.global.set("jwt_token", response.body.accessToken);
+  client.global.set("refresh_jwt_token", response.body.refreshToken)
+%}
+
+### createUser
+# Create a new user
+
+POST http://localhost:3500/api/users/register HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "keksissimo2@mail.com",
+  "avatar": "avt.png",
+  "name": "Keks",
+  "password": "123456"
+}
+
+### getUser
+# Get user by ID
+GET http://localhost:3500/api/users/645144b228cb64e0a917f51a HTTP/1.1
+
+### refresh
+# Get new JWT pair
+POST http://localhost:3500/api/users/refresh HTTP/1.1
+Authorization: Bearer {{refresh_jwt_token}}
+
+### subscribeToUser
+# Subscribe to a user
+
+POST http://localhost:3500/api/users/6454ea41c2a5f7f8a3fc2be5/subscribe?action=1 HTTP/1.1
+Authorization: Bearer {{jwt_token}}
+
+
+### getPost
+# Get post by ID
+GET http://localhost:3500/api/posts/10 HTTP/1.1
+
+### getPosts
+# Get all posts
+GET http://localhost:3500/api/posts?limit=10 HTTP/1.1
+
+### deletePost
+# Delete post by ID
+DELETE http://localhost:3500/api/posts/8 HTTP/1.1
+Authorization: Bearer {{jwt_token}}
+
+### createTextPost
+# Create a new text post
+POST http://localhost:3500/api/posts/new HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{jwt_token}}
+
+{
+  "type": "text",
+  "status": "posted",
+  "title": "How to escape russia in 3857 easy steps!!",
+  "announcement": "How to escape russia and not get repressed in 3857 easy steps!!!!!!!!!!!!!!!!!!!!!!!!",
+  "text": "Step 1: All you need to do is............ (read at source)..................................................................................",
+  "tags": ["help"]
+}
+
+### updateTextPost
+# Update a text post
+PATCH http://localhost:3500/api/posts/40 HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{jwt_token}}
+
+{
+  "type": "text",
+  "text": "heyaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+}
+
+### createImagePost
+# Create a new image post
+POST http://localhost:3500/api/posts/new HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{jwt_token}}
+
+{
+  "type": "image",
+  "title": "ShrekFanficIllustration",
+  "imageLink": "https://www.helpme.com/ShrekFanficIllustration.jpg",
+  "tags": ["jjjjiee", "pppppp"]
+}
+
+### createVideoPost
+# Create a new video post
+POST http://localhost:3500/api/posts/new HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{jwt_token}}
+
+{
+  "type": "video",
+  "title": "PRANK GONE WRONG!",
+  "videoLink": "https://youtu.be/bbbbbbbbbbb",
+  "tags": ["rippp"]
+}
+
+### createLinkPost
+# Create a new link post
+POST http://localhost:3500/api/posts/new HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{jwt_token}}
+
+{
+  "type": "link",
+  "link": "https://notascam.scam",
+  "description": "Lonely MILFs in your area want to have fun!",
+  "tags": []
+}
+
+### createQuotePost
+# Create a new quote post
+POST http://localhost:3500/api/posts/new HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{jwt_token}}
+
+{
+  "type": "quote",
+  "quote": "4real 4real on god tho!!!!!!!!!!!!!!!!!!!!!",
+  "author": "Demarcus Laurentius III",
+  "tags": ["deep", "real", "hood"]
+}
+
+### repost
+# Like/dislike a post
+POST http://localhost:3500/api/posts/90/repost HTTP/1.1
+Authorization: Bearer {{jwt_token}}
+
+### likePost
+# Like/dislike a post
+POST http://localhost:3500/api/posts/213/like?action=1 HTTP/1.1
+Authorization: Bearer {{jwt_token}}
+
+### sendNewsletters
+# Send email newsletter about new posts
+POST http://localhost:3500/api/posts/news HTTP/1.1
+Authorization: Bearer {{jwt_token}}
+
+### getFeed
+# Get posts from users
+POST http://localhost:3500/api/posts/feed HTTP/1.1
+Authorization: Bearer {{jwt_token}}
+
+### searchPostsByTitle
+# Search posts by 'title' field
+GET http://localhost:3500/api/posts/search?searchRequest=wanted%20title
+
+
+
+### getCommentsByPostId
+# Get comments by post ID
+GET http://localhost:3500/api/comments/post/10 HTTP/1.1
+
+### createComment
+# Create a new comment for post
+POST http://localhost:3500/api/comments/new HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{jwt_token}}
+
+{
+  "postId": 10,
+  "text": "HOLYYYMOLYYY"
+}
+
+### deleteComment
+# Delete a single comment
+DELETE http://localhost:3500/api/comments/3 HTTP/1.1
+Authorization: Bearer {{jwt_token}}
+
+
+
+### uploadFile
+# Upload some file
+POST http://localhost:3500/api/files/upload HTTP/1.1
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="file"; filename="app.http"
+Content-Type: text/plain
+
+
+--boundary--
+
+### getFileById
+# Get file by ID
+GET http://localhost:3500/api/files/64465f2e3b0cea3a56ef5221 HTTP/1.1
+
