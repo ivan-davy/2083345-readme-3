@@ -73,7 +73,7 @@ Authorization: Bearer {{jwt_token}}
 
 ### likePost
 # Like/dislike a post
-POST http://localhost:3332/api/post/8/like?action=1 HTTP/1.1
+POST http://localhost:3332/api/post/892/like?action=1 HTTP/1.1
 Authorization: Bearer {{jwt_token}}
 
 ### sendNewsletters

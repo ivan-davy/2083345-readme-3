@@ -1,6 +1,6 @@
 import {BlogPostEntity} from './blog-post.entity';
 import {LikeInterface, PostInterface, PostStatusEnum, PostTypeEnum} from '@project/shared/app-types';
-import {Injectable} from '@nestjs/common';
+import {Injectable, NotFoundException} from '@nestjs/common';
 import {CrudRepositoryInterface} from '@project/util/util-types';
 import {PrismaService} from '../prisma/prisma.service';
 import {prismaToPost} from './utils/prisma-to-post';
@@ -160,7 +160,12 @@ export class BlogPostRepository implements CrudRepositoryInterface<BlogPostEntit
   }
 
   public async like(postId: number, userId: string, action: LikePostQueryActionEnum): Promise<LikeInterface> {
-    let likesForPost: string[] = (await this.getLikesForPost(postId)).likedByUsersIds;
+    let likesForPost: string[];
+    try {
+      likesForPost = (await this.getLikesForPost(postId)).likedByUsersIds;
+    } catch (err) {
+      throw new NotFoundException();
+    }
     const post = await this.findById(postId);
     if (action === LikePostQueryActionEnum.Like && !likesForPost.includes(userId) && post.status === PostStatusEnum.Posted) {
       likesForPost.push(userId);

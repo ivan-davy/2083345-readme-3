@@ -1,4 +1,4 @@
-import {Controller, Get, HttpException, HttpStatus, Param, Post, Query, UseGuards} from '@nestjs/common';
+import {Body, Controller, Get, HttpException, HttpStatus, Param, Post, Query, UseGuards} from '@nestjs/common';
 import {ApiResponse, ApiTags} from '@nestjs/swagger';
 import {CurrentUser, JwtAuthGuard} from '@project/util/util-auth';
 import {SubscribeToUserQuery} from './query/subscribe-to-user.query';
@@ -40,6 +40,25 @@ export class BlogUserController {
     } catch (err) {
       throw new HttpException(err.response.message, err.response.code);
     }
+  }
+
+  @ApiResponse({
+    type: UserRdo,
+    status: HttpStatus.OK,
+    description: 'User data array provided.'
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: 'Not found.'
+  })
+  @Post('ids')
+  public async showMultiple(@Body() postsUserInfo: Array<{author: string, origAuthor: string}>) {
+    return await Promise.all(postsUserInfo.map(async (post) => {
+      return {
+        author: fillObject(UserRdo, await this.userService.getUser(post.author)),
+        origAuthor: fillObject(UserRdo, await this.userService.getUser(post.origAuthor)),
+      };
+    }))
   }
 
   @ApiResponse({

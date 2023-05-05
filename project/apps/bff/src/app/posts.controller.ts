@@ -46,7 +46,7 @@ export class PostsController {
         { ids: subscribedTo },
         { params: query }
       )).data;
-      return await Promise.all(posts.map( (post) => fillAuthorData(post, this.httpService)));
+      return await fillAuthorData(posts, this.httpService);
     } catch (err) {
       throw new HttpException(err.response.statusText, err.response.statusCode)
     }
@@ -66,7 +66,7 @@ export class PostsController {
     const posts: PostRdo[] = (await this.httpService.axiosRef.get(`${ApplicationServiceURL.BlogPost}/search`, {
       params: query
     })).data;
-    return await Promise.all(posts.map( (post) => fillAuthorData(post, this.httpService)));
+    return await fillAuthorData(posts, this.httpService);
   }
 
 
@@ -242,6 +242,6 @@ export class PostsController {
     const posts: PostRdo[] = (await this.httpService.axiosRef.get(`${ApplicationServiceURL.BlogPost}`, {
       params: query
     })).data;
-    return await Promise.all(posts.map( (post) => fillAuthorData(post, this.httpService)));
+    return await fillAuthorData(posts, this.httpService);
   }
 }
